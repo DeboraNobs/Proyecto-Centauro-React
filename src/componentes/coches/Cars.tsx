@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import CarDetails from './CarDetails';
+import { Car } from '../../types/types';
 
 const Cars = () => {
-    const [coches, setCoches] = useState([]); // le paso un array de dependencias vacio
+    const [coches, setCoches] = useState<Car[]>([]); // le paso un array de dependencias vacio
     useEffect(() => {
         fetch('http://localhost:5038/api/coche')
             .then(res => res.json())
@@ -11,7 +12,7 @@ const Cars = () => {
                 setCoches(data.$values);
             })
             .catch(error => console.error('Error:', error));
-    }, []); // estarray vacío evita llamadas infinitas a la api
+    }, []); // este array vacío evita llamadas infinitas a la api
 
     return (
         <div className='container'>
