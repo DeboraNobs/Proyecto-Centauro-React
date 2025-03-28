@@ -13,18 +13,31 @@ export type Car = {
     posee_aire_acondicionado: boolean;
 }
 
+export type User = {
+    id: number;
+    nombre: string;
+    apellidos: string;
+    email: string;
+    movil: string;
+    password: string;
+    rol: string;
+}
+
 export type CarDetailsProps = {
-    coche : Car;
+    coche: Car;
 }
 
 export type Borrar = {
-    texto : string;
+    texto: string;
     className: string;
     color?: string;
 }
 
 export type ButtonProps = {
+    type?: 'submit' | 'reset' | 'button';
     style: React.CSSProperties;
     texto: string; // para agregar el texto del botón.
     className?: string;
+    to?: string; // para agregar Links
+    
 }

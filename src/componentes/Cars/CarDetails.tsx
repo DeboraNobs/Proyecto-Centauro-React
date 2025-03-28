@@ -1,6 +1,6 @@
 import React from "react";
-import { Car, CarDetailsProps } from "../../types/types";
-import Button from "../elementos/Button";
+import { CarDetailsProps } from "../../types/types";
+import Button from "../Elements/Button";
 
 // React.FC significa React Function Component
 const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
@@ -19,9 +19,13 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
             </div>
             <div className="card-footer">
                 <Button
-                    style={{ color: "blue", padding: "10px" }}
+                       style={{
+                        color: "black", 
+                        padding: "7px",
+                        backgroundColor: "beige",
+                        border: "solid BurlyWood 2px"
+                      }}
                     texto="Reservar"
-                    className="btn-outline-warning"
                 />
             </div>
         </div>
