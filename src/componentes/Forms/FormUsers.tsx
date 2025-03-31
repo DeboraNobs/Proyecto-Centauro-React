@@ -12,6 +12,7 @@ const FormUsers = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
+    id: '',
     nombre: '',
     apellidos: '',
     email: '',
@@ -30,11 +31,12 @@ const FormUsers = () => {
         try {
           const user = await UsersService.getUserById(id);
           setFormData({
+            id: String(user.id),
             nombre: user.nombre,
             apellidos: user.apellidos || '',
             email: user.email,
             movil: user.movil || '',
-            password: '', // No cargamos la contraseña por seguridad
+            password: user.password || '',
             rol: user.rol
           });
           setErrorMessage('');

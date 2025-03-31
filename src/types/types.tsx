@@ -1,7 +1,7 @@
 import React from "react";
 
 export type Car = {
-    id: string;
+    id: string | number;
     marca: string;
     modelo: string;
     descripcion: string;
@@ -14,7 +14,7 @@ export type Car = {
 }
 
 export type User = {
-    id: number;
+    id: number | string;
     nombre: string;
     apellidos: string;
     email: string;

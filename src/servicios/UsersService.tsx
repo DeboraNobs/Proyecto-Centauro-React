@@ -38,7 +38,41 @@ export const UsersService = {
         }
     },
 
-    async updateUser (id : string, userData : any) :  Promise<User> {
+    async updateUser(id: string, userData: User): Promise<User> {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
+    
+            if (!response.ok) {
+                // Intenta extraer el error en formato JSON, pero maneja la posibilidad de que no haya cuerpo
+                const errorData = await response.text(); // Obtener el cuerpo como texto
+                let errorMessage = `Error ${response.status}: ${response.statusText}`;
+                
+                try {
+                    const jsonError = JSON.parse(errorData);
+                    errorMessage = jsonError.message || `Error ${response.status}: ${response.statusText}`;
+                } catch {
+                    console.warn("No se pudo parsear el error como JSON:", errorData);
+                }
+    
+                throw new Error(errorMessage);
+            }
+    
+            // Solo intentar parsear JSON si hay contenido en la respuesta
+            const responseText = await response.text();
+            return responseText ? JSON.parse(responseText) : {} as User;
+    
+        } catch (error) {
+            console.error("Detalles del error al actualizar:", { id, userData, error });
+            throw error;
+        }
+    },
+    
+
+    /*async updateUser (id : string, userData : User) :  Promise<User> {
         try {
             const response = await fetch(`${API_URL}/${id}`, {
                 method: 'PUT',
@@ -66,6 +100,7 @@ export const UsersService = {
             throw error;
         }
     },
+    */
 
     async createUser(userData: Partial<User>): Promise<User> {
         try {

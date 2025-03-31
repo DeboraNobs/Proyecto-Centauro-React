@@ -87,14 +87,14 @@ const Users = () => {
                                     <button 
                                         type="button" 
                                         className="btn btn-outline-warning btn-sm"
-                                        onClick={() => editarUsuario(user.id)}>
+                                        onClick={() => editarUsuario(String(user.id))}>
                                         <span className="bi bi-pencil-square"></span>&nbsp;Editar
                                     </button> 
                                     
                                     <button 
                                         type="button" 
                                         className="btn btn-outline-danger btn-sm" 
-                                        onClick={() => borrarUsuario(user.id)}>
+                                        onClick={() => borrarUsuario(String(user.id))}>
                                         <span className="bi-trash"></span>&nbsp;Eliminar
                                     </button>
 
