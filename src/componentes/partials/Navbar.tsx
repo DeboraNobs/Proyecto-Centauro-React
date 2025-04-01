@@ -10,6 +10,24 @@ const Navbar = () => {
                 <h3 className="mb-0">Rent a car</h3>
             </div>
 
+            <Link to="/"   
+                style={{ 
+                    color: "MidnightBlue", 
+                    textDecoration: "none", 
+                    borderRadius: "5px"
+                }} 
+                > Flota
+            </Link>
+
+            <Link to="cars"   
+                style={{ 
+                    color: "MidnightBlue", 
+                    textDecoration: "none", 
+                    borderRadius: "5px"
+                }} 
+                > Coches
+            </Link>
+
             <Link to="users"   
                 style={{ 
                     color: "MidnightBlue", 

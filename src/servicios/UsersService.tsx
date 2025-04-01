@@ -71,37 +71,6 @@ export const UsersService = {
         }
     },
     
-
-    /*async updateUser (id : string, userData : User) :  Promise<User> {
-        try {
-            const response = await fetch(`${API_URL}/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type' : 'application/json',
-                },
-                body: JSON.stringify(userData)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                const errorMessage = errorData.message || 
-                                   errorData.errors?.join(', ') || 
-                                   `Error ${response.status}: ${response.statusText}`;
-                throw new Error(errorMessage);
-            }
-            return await response.json();
-
-        }  catch (error) {
-            console.error("Detalles del error al actualizar:", {
-                id,
-                userData,
-                error
-            });
-            throw error;
-        }
-    },
-    */
-
     async createUser(userData: Partial<User>): Promise<User> {
         try {
             const response = await fetch(API_URL, {

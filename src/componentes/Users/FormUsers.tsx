@@ -10,9 +10,10 @@ const FormUsers = () => {
   const navigate = useNavigate();
   const [isEditing] = useState(!!id);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [formData, setFormData] = useState({
-    id: '',
+    id: 0,
     nombre: '',
     apellidos: '',
     email: '',
@@ -20,8 +21,6 @@ const FormUsers = () => {
     password: '',
     rol: ''
   });
-
-  const [errorMessage, setErrorMessage] = useState('');
 
   // Cargar datos del usuario si estamos editando
   useEffect(() => {
@@ -31,7 +30,7 @@ const FormUsers = () => {
         try {
           const user = await UsersService.getUserById(id);
           setFormData({
-            id: String(user.id),
+            id: user.id,
             nombre: user.nombre,
             apellidos: user.apellidos || '',
             email: user.email,
@@ -51,6 +50,7 @@ const FormUsers = () => {
     }
   }, [id]);
 
+
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -59,6 +59,7 @@ const FormUsers = () => {
     }));
   };
 
+  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -80,17 +81,17 @@ const FormUsers = () => {
       navigate('/users');
       
     } catch (error: any) {
-      console.error('Error en la operación:', error);
-      setErrorMessage(error.message || `Error al ${isEditing ? 'actualizar' : 'crear'} el usuario`);
+        console.error('Error en la operación:', error);
+        setErrorMessage(error.message || `Error al ${isEditing ? 'actualizar' : 'crear'} el usuario`);
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
 
   if (isLoading) {
     return (
       <div className="container mt-5">
-        <div className="text-center">Cargando...</div>
+        <div className="text-center">Cargando formulario...</div>
       </div>
     );
   }

@@ -1,7 +1,18 @@
 import React from "react";
 
-export type Car = {
+export type Group = {
     id: string | number;
+    nombre: string;
+    descripcion: string;
+}
+
+export type Sucursal = {
+    id: string | number;
+    nombre: string;
+}
+
+export type Car = {
+    id: number;
     marca: string;
     modelo: string;
     descripcion: string;
@@ -10,11 +21,23 @@ export type Car = {
     tipo_cambio: string;
     num_puertas: number;
     num_plazas: number;
+    num_maletas: number;
     posee_aire_acondicionado: boolean;
+    
+    GrupoId: number;
+    grupo?: Group;
+
+    SucursalId: number;
+    sucursal?: Sucursal;
+}
+
+
+export type CarDetailsProps = {
+    coche: Car;
 }
 
 export type User = {
-    id: number | string;
+    id: number;
     nombre: string;
     apellidos: string;
     email: string;
@@ -23,8 +46,12 @@ export type User = {
     rol: string;
 }
 
-export type CarDetailsProps = {
-    coche: Car;
+export type Rental = {
+    id: number | string;
+    fecha_inicio: Date;
+    fecha_fin: Date;
+    
+    user_id: number | string;
 }
 
 export type Borrar = {
@@ -39,5 +66,4 @@ export type ButtonProps = {
     texto: string; // para agregar el texto del botón.
     className?: string;
     to?: string; // para agregar Links
-    
 }
