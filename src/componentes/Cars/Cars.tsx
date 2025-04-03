@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Car } from '../../types/types'
 import { Link, useNavigate } from 'react-router-dom';
 import { CarsService } from '../../servicios/CarsService';
+import { FaSearch } from 'react-icons/fa';
 
 const Cars = () => {
     const [cars, setCars] = useState<Car[]>([]);
     const [mensajeError, setMensajeError] = useState<string>('');
     const [mensajeExito, setMensajeExito] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [search, setSearch] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,13 +46,27 @@ const Cars = () => {
         navigate(`/form-cars/${id}`);
     }
 
+    const searcher = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const target = e.target;
+        setSearch(target.value);
+    }
+
+    let computadaCars: Car[] = [];
+    if (!search) {
+        computadaCars = cars;
+    } else {
+        computadaCars = cars.filter((dato) =>
+            dato.marca.toLowerCase().includes(search.toLowerCase()) ||
+            dato.modelo.toLowerCase().includes(search.toLowerCase())
+        )
+    }
+
     return (
         <div className="container mt-5">
-            <h2 className="text-center mb-4">Lista de Coches</h2>
-            {mensajeError && <div className="alert alert-danger">{mensajeError}</div>}
-            {mensajeExito && <div className="alert alert-success">{mensajeExito}</div>}
 
-            <div className="text-end mb-3">
+            <h2 className="text-center mb-4 mt-4">Lista de Coches</h2>
+
+            <div className="text-end mb-3 d-flex justify-content-center">
                 <Link to="/form-cars"
                     style={{
                         color: "black",
@@ -63,6 +79,17 @@ const Cars = () => {
                     Crear Coche
                 </Link>
             </div>
+            
+            <div className="input-group mb-3">
+                <span className="input-group-text"><FaSearch /></span>
+                <input type="text" className='form-control' placeholder='Introduzca su búsqueda'
+                    value={search}
+                    onChange={searcher}
+                />
+            </div>
+
+            {mensajeError && <div className="alert alert-danger">{mensajeError}</div>}
+            {mensajeExito && <div className="alert alert-success">{mensajeExito}</div>}
 
             <table className="table table-striped" style={{ backgroundColor: "white" }}>
                 <thead>
@@ -81,8 +108,8 @@ const Cars = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {cars.length > 0 ? (
-                        cars.map((car) => (
+                    {computadaCars.length > 0 ? (
+                        computadaCars.map((car) => (
                             <tr
                                 key={car.id}>
                                 <td>{car.marca} </td>
@@ -115,7 +142,7 @@ const Cars = () => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={5} className="text-center">Cargando coches...</td>
+                            <td colSpan={5} className="text-center">Ningún coche coincide con su búsqueda</td>
                         </tr>
                     )}
                 </tbody>

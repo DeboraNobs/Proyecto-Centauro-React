@@ -10,10 +10,71 @@ body {
   margin-bottom: 5%;
 }
 
+.card {
+  background-color: rgb(245, 245, 234);
+}
+
 .CarDetails {
   text-align: justify;
 }
 
 .card-text { 
   text-align: justify;
+}
+
+
+/* Estilos NAVBAR */
+.navbar-container {
+  border-bottom: 3px solid BurlyWood;
+  padding: 12px 20px;
+}
+
+.brand-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: black;
+}
+
+.brand-subtitle {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+  padding: 6px 12px;
+  position: relative;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-item:hover {
+  color: #8B4513; 
+}
+
+.nav-item::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background-color: BurlyWood;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}
+
+.nav-logo {
+  width: 190px;
+  height: 40px;
 }

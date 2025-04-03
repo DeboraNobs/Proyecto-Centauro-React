@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 export type Group = {
     id: string | number;
@@ -62,8 +62,15 @@ export type Borrar = {
 
 export type ButtonProps = {
     type?: 'submit' | 'reset' | 'button';
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
     style: React.CSSProperties;
     texto: string; // para agregar el texto del botón.
     className?: string;
     to?: string; // para agregar Links
+}
+
+export type FleetFilterProps = {
+    setSelectedPlazas: Dispatch<SetStateAction<number>>;
+    setSelectedTipoCambio: Dispatch<SetStateAction<string>>;
+    setSelectedTipoCoche: Dispatch<SetStateAction<string>>;
 }

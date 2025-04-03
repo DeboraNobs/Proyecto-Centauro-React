@@ -230,7 +230,7 @@ const FormCars = () => {
                   <option value="">Selecciona el tipo de cambio</option>
                   <option value="Manual">Manual</option>
                   <option value="Automatico">Automático</option>
-                  <option value="Semi_automatico">Semi Automático</option>
+                  <option value="Semi">Semi Automático</option>
 
                 </select>
               </div>

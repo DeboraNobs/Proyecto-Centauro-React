@@ -4,42 +4,23 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
-        <div className="Navbar d-flex align-items-center justify-content-between p-3">
+        <nav className="navbar-container d-flex align-items-center justify-content-between p-3 mb-3">
+      
             <div className="d-flex flex-column">
-                <h1 className="mb-0">Centauro</h1>
-                <h3 className="mb-0">Rent a car</h3>
+                <h2 className="mb-0 brand-title">Centauro</h2>
+                <h4 className="mb-0 brand-subtitle">Rent a car</h4>
             </div>
 
-            <Link to="/"   
-                style={{ 
-                    color: "MidnightBlue", 
-                    textDecoration: "none", 
-                    borderRadius: "5px"
-                }} 
-                > Flota
-            </Link>
+            <div className="nav-links d-flex gap-3">
+                <Link to="/" className="nav-item">Flota</Link>
+                <Link to="cars" className="nav-item">Coches</Link>
+                <Link to="users" className="nav-item">Usuarios</Link>
+            </div>
 
-            <Link to="cars"   
-                style={{ 
-                    color: "MidnightBlue", 
-                    textDecoration: "none", 
-                    borderRadius: "5px"
-                }} 
-                > Coches
-            </Link>
-
-            <Link to="users"   
-                style={{ 
-                    color: "MidnightBlue", 
-                    textDecoration: "none", 
-                    borderRadius: "5px"
-                }} 
-                > Usuarios
-            </Link> 
-
-            <img src={logo} alt="Centauro logo" width={250} height={50} />
-        </div>
+            <img src={logo} alt="Centauro logo" className="nav-logo" />
+        </nav>
     );
 };
 
 export default Navbar;
+

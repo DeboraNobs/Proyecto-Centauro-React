@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom'; // Importa Routes y Route
 import Users from './componentes/Users/Users';
 import Cars from './componentes/Cars/Cars';
 import FormCars from './componentes/Cars/FormCars';
+import FleetFilter from './componentes/Elements/FleetFilter';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
      
         <Route path="/" element={
           <Fleet>
+            <FleetFilter />
             <CarDetails />
           </Fleet>
         } />

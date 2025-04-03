@@ -40,10 +40,10 @@ const FormUsers = () => {
           });
           setErrorMessage('');
         } catch (error) {
-          console.error('Error al cargar usuario:', error);
-          setErrorMessage('No se pudo cargar la información del usuario.');
+            console.error('Error al cargar usuario:', error);
+            setErrorMessage('No se pudo cargar la información del usuario.');
         } finally {
-          setIsLoading(false);
+            setIsLoading(false);
         }
       };
       loadUserData();
@@ -69,10 +69,8 @@ const FormUsers = () => {
       let result: User;
       
       if (isEditing && id) {
-        // Actualizar usuario existente
         result = await UsersService.updateUser(id, formData);
       } else {
-        // Crear nuevo usuario
         result = await UsersService.createUser(formData);
       }
 
