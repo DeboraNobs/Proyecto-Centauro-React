@@ -7,7 +7,7 @@ import { Car } from '../../types/types';
 import { CarsService } from '../../servicios/CarsService';
 
 const FormCars = () => {
- const { id } = useParams(); // siempre devuelve un string, hay que convertir a number porque id espera un number
+  const { id } = useParams(); // siempre devuelve un string, hay que convertir a number porque id espera un number
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +33,7 @@ const FormCars = () => {
     num_plazas: 0,
     num_maletas: 0,
     posee_aire_acondicionado: false,
+    imagen: null as File | null | string,
     GrupoId: 0,
     SucursalId: 0,
   });
@@ -55,6 +56,7 @@ const FormCars = () => {
             num_plazas: car.num_plazas,
             num_maletas: car.num_maletas,
             posee_aire_acondicionado: car.posee_aire_acondicionado,
+            imagen: car.imagen ?? null,
             GrupoId: car.GrupoId,
             SucursalId: car.SucursalId,
           });
@@ -94,27 +96,50 @@ const FormCars = () => {
     fetchSucursales();
   }, [id]);
 
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage('');
 
     try {
+      const carData: Car = {
+        id: isEditing ? formData.id : 0,  // asigno un ID incluso en creación
+        marca: formData.marca,
+        modelo: formData.modelo,
+        descripcion: formData.descripcion,
+        patente: formData.patente,
+        tipo_coche: formData.tipo_coche,
+        tipo_cambio: formData.tipo_cambio,
+        num_puertas: formData.num_puertas,
+        num_plazas: formData.num_plazas,
+        num_maletas: formData.num_maletas,
+        posee_aire_acondicionado: formData.posee_aire_acondicionado,
+        GrupoId: formData.GrupoId,
+        SucursalId: formData.SucursalId,
+      };
+
+
+      let file: File | undefined;
+      if (formData.imagen instanceof File) {
+        file = formData.imagen;
+      } else if (typeof formData.imagen === 'string' && formData.imagen) {
+        carData.imagen = formData.imagen;
+      }
+
       let result: Car;
 
       if (isEditing && id) {
-        result = await CarsService.updateCar(Number(id), formData);
+        result = await CarsService.updateCar(Number(id), carData);
       } else {
-        result = await CarsService.createCar(formData)
+        result = await CarsService.createCar(carData, file);
       }
+
       console.log('Operación exitosa:', result);
       alert(`Coche ${isEditing ? 'editado' : 'creado'} correctamente`);
       navigate('/cars');
-
     } catch (error: any) {
       console.error('Error en la operación:', error);
-      setErrorMessage(error.message || 'Error al crear el coche');
+      setErrorMessage(error.message || 'Error al procesar el coche');
     } finally {
       setIsLoading(false);
     }
@@ -135,7 +160,7 @@ const FormCars = () => {
 
         {errorMessage && <div className="alert alert-danger text-center">{errorMessage}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="row mb-3">
             <div className="col-md-6">
               <div className="input-group">
@@ -379,6 +404,25 @@ const FormCars = () => {
 
           </div>
 
+          <div className="col-12">
+            <div className={`custom-file w-100 ${id && isEditing ? 'd-none' : ''}`}>
+              <input
+                type="file"
+                name="imagen"
+                id="imagen"
+                className="form-control"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setFormData({ ...formData, imagen: file });
+                  }
+                }}
+              />
+            </div>
+          </div>
+
+
           <hr />
 
           <div className="d-flex justify-content-between">
@@ -411,3 +455,7 @@ const FormCars = () => {
 }
 
 export default FormCars;
+
+
+
+

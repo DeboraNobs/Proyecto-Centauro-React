@@ -38,7 +38,7 @@ export const CarsService = {
             throw error;
         }
     },
-
+    
     async updateCar(id: number, carData: Car): Promise<Car> {
         try {
             const response = await fetch(`${API_URL}/${id}`, {
@@ -61,7 +61,6 @@ export const CarsService = {
                 throw new Error(errorMessage);
             }
 
-            // Solo intentar parsear JSON si hay contenido en la respuesta
             const responseText = await response.text();
             return responseText ? JSON.parse(responseText) : {} as Car;
 
@@ -70,44 +69,22 @@ export const CarsService = {
             throw error;
         }
     },
-    /*
-    async createCar(carData: Partial<Car>): Promise<Car> {
+  
+    async createCar(carData: Partial<Car>, file?: File): Promise<Car> {
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(carData)
-            });
+            let base64Imagen: string | null = null;
+            
+            if (file) {
+                base64Imagen = await this.convertirArchivoABase64(file);
+            } else if (carData.imagen && typeof carData.imagen === 'string') {
+                base64Imagen = carData.imagen; // Si ya viene como string (podría ser base64 de una edición)
+            }
 
-            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-
-            return await response.json();
-
-        } catch (error) {
-            console.error("Error al crear coche", error);
-            throw error;
-        }
-    }
-    */
-    async createCar(carData: Partial<Car>): Promise<Car> {
-        try {
             const requestData = {
-                marca: carData.marca,
-                modelo: carData.modelo,
-                descripcion: carData.descripcion,
-                patente: carData.patente,
-                tipo_coche: carData.tipo_coche,
-                tipo_cambio: carData.tipo_cambio,
-                num_puertas: carData.num_puertas,
-                num_plazas: carData.num_plazas,
-                num_maletas: carData.num_maletas,
-                posee_aire_acondicionado: carData.posee_aire_acondicionado,
-                GrupoId: carData.GrupoId ?? null,  
-                SucursalId: carData.SucursalId ?? null, 
+                ...carData,
+                imagen: base64Imagen
             };
-    
+
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
@@ -115,19 +92,30 @@ export const CarsService = {
                 },
                 body: JSON.stringify(requestData),
             });
-    
+
             if (!response.ok) {
                 const errorMessage = await response.text();
                 throw new Error(`Error ${response.status}: ${errorMessage}`);
             }
-    
+
             return await response.json();
-    
         } catch (error) {
             console.error("Error al crear coche", error);
             throw error;
         }
-    }
+    },
     
-
+    async convertirArchivoABase64(file: File): Promise<string> {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const base64ConPrefijo = reader.result as string;
+                const soloBase64 = base64ConPrefijo.split(',')[1]; 
+                resolve(soloBase64);
+            };
+            reader.onerror = (error) => reject(error);
+            reader.readAsDataURL(file);
+        });
+    },
+    
 }

@@ -23,14 +23,12 @@ export type Car = {
     num_plazas: number;
     num_maletas: number;
     posee_aire_acondicionado: boolean;
-    
+    imagen?: File | string;
     GrupoId: number;
     grupo?: Group;
-
     SucursalId: number;
     sucursal?: Sucursal;
 }
-
 
 export type CarDetailsProps = {
     coche: Car;

@@ -8,29 +8,40 @@ import { MdOutlineLuggage } from "react-icons/md";
 
 // React.FC significa React Function Component
 const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
+    const imageSrc = coche.imagen ? `data:image/jpeg;base64,${coche.imagen}` : null;
+
     return (
         <div className="card" style={{ width: '18rem' }}>
             <div className="card-body">
                 <h5 className="card-title">{coche.marca} {coche.modelo}</h5>
                 <h6> o similar</h6>
-                <hr />
+
+                {imageSrc && (
+                    <img
+                        src={imageSrc}
+                        alt={`${coche.marca} ${coche.modelo}`}
+                        className="card-img-top"
+                        style={{ objectFit: "cover", width: "100%", height: "160px" }}
+                    />
+                )}
+
                 <p className="card-text"> {coche.descripcion}</p>
 
                 <div className="row mb-3">
                     <div className="col-md-6">
                         <p className="card-text">
                             <MdOutlineLuggage />
-                                {coche.num_maletas}
-                        </p>                    
+                            {coche.num_maletas}
+                        </p>
                     </div>
 
                     <div className="col-md-6">
-                    <p className="card-text">
-                    <FaSnowflake 
-                        color={!coche.posee_aire_acondicionado ? "#6c757d" : undefined} 
-                    />
-                    {coche.posee_aire_acondicionado ? 'Sí' : 'No'}
-                    </p>
+                        <p className="card-text">
+                            <FaSnowflake
+                                color={!coche.posee_aire_acondicionado ? "#6c757d" : undefined}
+                            />
+                            {coche.posee_aire_acondicionado ? 'Sí' : 'No'}
+                        </p>
                     </div>
                 </div>
 
@@ -47,12 +58,12 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
                         </p>
                     </div>
                 </div>
-                
+
 
                 <div className="row mb-3">
                     <div className="col-md-6">
                         <p className="card-text">
-                            <GiCarDoor  /> {coche.num_puertas}
+                            <GiCarDoor /> {coche.num_puertas}
                         </p>
                     </div>
 
@@ -67,7 +78,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
                     <FaLayerGroup />
                     {coche.grupo ? coche.grupo.nombre : `ID: ${coche.GrupoId} (Sin grupo)`}
                 </p>
-               
+
             </div>
             <div className="card-footer">
                 <Button
