@@ -50,6 +50,7 @@ export const CarsService = {
         }
     },
     
+    /*
     async updateCar(id: number, carData: Car, file?: File): Promise<Car> {
         try {
             const response = await fetch(`${API_URL}/${id}`, {
@@ -75,6 +76,47 @@ export const CarsService = {
 
         } catch (error) {
             console.error("Detalles del error al actualizar:", { id, carData, error });
+            throw error;
+        }
+    }
+    */
+    async updateCar(id: number, carData: Car, file?: File): Promise<Car> {
+        try {
+            const formData = new FormData();
+            
+            const carProperties: Array<keyof Car> = [
+                'id','marca', 'modelo', 'descripcion', 'patente',
+                'tipo_coche', 'tipo_cambio', 'num_puertas',
+                'num_plazas', 'num_maletas', 'posee_aire_acondicionado',
+                'GrupoId', 'SucursalId', 'imagen'
+            ];
+            carProperties.forEach(prop => {
+                if (carData[prop] !== undefined) {
+                    formData.append(prop, String(carData[prop]));
+                }
+            });
+            if (file) {
+                let base64Imagen: string | null = null;
+                base64Imagen = await this.convertirArchivoABase64(file);
+                formData.append('imagen', base64Imagen);
+            }
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                body: formData
+            });
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(`Error ${response.status}: ${errorMessage}`);
+            }
+            if (response.status === 204) {
+                return  {} as Car; 
+            }
+            
+            const responseText = await response.text();
+            return responseText ? JSON.parse(responseText) :  {} as Car;
+                        
+        } catch (error) {
+            console.error("Error al actualizar coche", error);
             throw error;
         }
     },

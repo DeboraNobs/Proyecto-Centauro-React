@@ -119,17 +119,18 @@ const FormCars = () => {
       };
 
 
-      let file: File | undefined;
+      /*let file: File | undefined;
       if (formData.imagen instanceof File) {
         file = formData.imagen;
       } else if (typeof formData.imagen === 'string' && formData.imagen) {
         carData.imagen = formData.imagen;
-      }
+      }*/
+      const file = formData.imagen instanceof File ? formData.imagen : undefined;
 
       let result: Car;
 
       if (isEditing && id) {
-        result = await CarsService.updateCar(Number(id), carData);
+        result = await CarsService.updateCar(Number(id), carData, file);
       } else {
         result = await CarsService.createCar(carData, file);
       }
@@ -405,7 +406,7 @@ const FormCars = () => {
           </div>
 
           <div className="col-12">
-           <div className={`custom-file w-100 ${id && isEditing ? 'd-none' : ''}`}>
+           { //<div className={`custom-file w-100 ${id && isEditing ? 'd-none' : ''}`}>
               <input
                 type="file"
                 name="imagen"
@@ -419,8 +420,8 @@ const FormCars = () => {
                   }
                 }}
               />
-            </div> 
-              
+            // </div> 
+}
           </div>
 
 
