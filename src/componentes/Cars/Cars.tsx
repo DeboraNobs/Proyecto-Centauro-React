@@ -8,7 +8,7 @@ const Cars = () => {
     const [cars, setCars] = useState<Car[]>([]);
     const [mensajeError, setMensajeError] = useState<string>('');
     const [mensajeExito, setMensajeExito] = useState<string>('');
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [, setIsLoading] = useState<boolean>(true);
     const [search, setSearch] = useState('');
     const navigate = useNavigate();
 

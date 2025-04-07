@@ -5,8 +5,6 @@ import { FaCar, FaExchangeAlt, FaLayerGroup, FaSnowflake, FaUserFriends } from "
 import { GiCarDoor } from "react-icons/gi";
 import { MdOutlineLuggage } from "react-icons/md";
 
-
-// React.FC significa React Function Component
 const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
     const imageSrc = coche.imagen ? `data:image/jpeg;base64,${coche.imagen}` : null;
 

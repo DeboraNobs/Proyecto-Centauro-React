@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Car, FleetFilterProps } from '../../types/types';
+import { FleetFilterProps } from '../../types/types';
 import Button from './Button';
 
 const FleetFilter: React.FC<FleetFilterProps> = ({ setSelectedPlazas, setSelectedTipoCambio, setSelectedTipoCoche }) => {

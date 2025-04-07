@@ -9,6 +9,7 @@ import Users from './componentes/Users/Users';
 import Cars from './componentes/Cars/Cars';
 import FormCars from './componentes/Cars/FormCars';
 import FleetFilter from './componentes/Elements/FleetFilter';
+import Home from './componentes/Home/Home';
 
 
 function App() {
@@ -18,15 +19,17 @@ function App() {
 
       <Routes>
      
-        <Route path="/" element={
+        <Route path="/" element={<Home />}></Route>
+        
+        <Route path="/fleet" element={
           <Fleet>
             <FleetFilter />
             <CarDetails />
           </Fleet>
         } />
         
-        <Route path='/users' element={<Users />}></Route>
-        <Route path='/cars' element={<Cars />}></Route>
+        <Route path="/users" element={<Users />}></Route>
+        <Route path="/cars" element={<Cars />}></Route>
 
         <Route path="/form-users" element={<FormUsers />} />
         <Route path="/form-users/:id" element={<FormUsers />} />

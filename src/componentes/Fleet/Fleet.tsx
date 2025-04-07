@@ -42,8 +42,7 @@ const Fleet = () => {
             <div className='row'>
                 {cochesFiltrados.length > 0 ? (
                     cochesFiltrados.map((coche) => (
-                        <div 
-                            className="col-md-4 mb-4" 
+                        <div className="col-12 col-md-6 col-lg-4 mb-3" 
                             key={coche.id}
                         >
                             <CarDetails coche={coche} />
