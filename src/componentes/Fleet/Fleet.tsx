@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import CarDetails from './CarDetails';
 import { Car } from '../../types/types';
-import FleetFilter from '../Elements/FleetFilter';
+import FleetFilter from '../Fleet/FleetFilter';
 
 const Fleet = () => {
 
@@ -18,7 +18,7 @@ const Fleet = () => {
                 console.log(data);
                 setCoches(data.$values);
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('Error: ', error));
     }, []); // este array vacío evita llamadas infinitas a la api
 
     const cochesFiltrados = coches.filter(coche => {

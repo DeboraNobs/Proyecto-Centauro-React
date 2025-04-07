@@ -8,8 +8,9 @@ import { Routes, Route } from 'react-router-dom'; // Importa Routes y Route
 import Users from './componentes/Users/Users';
 import Cars from './componentes/Cars/Cars';
 import FormCars from './componentes/Cars/FormCars';
-import FleetFilter from './componentes/Elements/FleetFilter';
+import FleetFilter from './componentes/Fleet/FleetFilter';
 import Home from './componentes/Home/Home';
+import Availability from './componentes/Fleet/Availability';
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
 
       <Routes>
      
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/availability" element={<Availability />} />
         
         <Route path="/fleet" element={
           <Fleet>

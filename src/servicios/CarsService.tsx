@@ -14,6 +14,17 @@ export const CarsService = {
         }
     },
 
+    async getCarsBySucursalId(sucursal_id : number): Promise<Car[]> {
+        try {
+            const response = await fetch(`${API_URL}/con-filtrado?sucursalId=${sucursal_id}`);
+            const data = await response.json();
+            return data.$values;
+        } catch (error) {
+            console.error("Error al obtener todos los coches con sucursal_id", error);
+            throw new Error("Error al cargar los coches con sucursal_id.");
+        }
+    },
+
     async deleteCar(id: number): Promise<void> {
         try {
             const response = await fetch(`${API_URL}/${id}`, {
@@ -39,7 +50,7 @@ export const CarsService = {
         }
     },
     
-    async updateCar(id: number, carData: Car): Promise<Car> {
+    async updateCar(id: number, carData: Car, file?: File): Promise<Car> {
         try {
             const response = await fetch(`${API_URL}/${id}`, {
                 method: 'PUT',
@@ -50,18 +61,16 @@ export const CarsService = {
             if (!response.ok) {
                 const errorData = await response.text(); // Obtener el cuerpo como texto
                 let errorMessage = `Error ${response.status}: ${response.statusText}`;
-
                 try {
                     const jsonError = JSON.parse(errorData);
                     errorMessage = jsonError.message || `Error ${response.status}: ${response.statusText}`;
                 } catch {
                     console.warn("No se pudo parsear el error como JSON:", errorData);
                 }
-
                 throw new Error(errorMessage);
             }
-
             const responseText = await response.text();
+            
             return responseText ? JSON.parse(responseText) : {} as Car;
 
         } catch (error) {
@@ -72,32 +81,36 @@ export const CarsService = {
   
     async createCar(carData: Partial<Car>, file?: File): Promise<Car> {
         try {
-            let base64Imagen: string | null = null;
+            const formData = new FormData(); // uso un formData porque trato imagenes, se envia un encType="multipart/form-data"
             
-            if (file) {
-                base64Imagen = await this.convertirArchivoABase64(file);
-            } else if (carData.imagen && typeof carData.imagen === 'string') {
-                base64Imagen = carData.imagen; // Si ya viene como string (podría ser base64 de una edición)
-            }
-
-            const requestData = {
-                ...carData,
-                imagen: base64Imagen
-            };
-
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestData),
+            const carProperties: Array<keyof Car> = [
+                'marca', 'modelo', 'descripcion', 'patente',
+                'tipo_coche', 'tipo_cambio', 'num_puertas',
+                'num_plazas', 'num_maletas', 'posee_aire_acondicionado',
+                'GrupoId', 'SucursalId'
+            ];
+            carProperties.forEach(prop => {
+                if (carData[prop] !== undefined) { // si ninguna propiedad de carData es undefined entonces haz un append
+                    formData.append(prop, String(carData[prop]));
+                }
             });
 
+            if (file) {
+                let base64Imagen: string | null = null;
+                base64Imagen = await this.convertirArchivoABase64(file);
+                formData.append('imagen', base64Imagen);
+            }
+    
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                body: formData
+            });
+    
             if (!response.ok) {
                 const errorMessage = await response.text();
                 throw new Error(`Error ${response.status}: ${errorMessage}`);
             }
-
+    
             return await response.json();
         } catch (error) {
             console.error("Error al crear coche", error);

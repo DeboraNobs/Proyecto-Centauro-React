@@ -1,12 +1,19 @@
 import React from 'react';
 import logo from '../../assets/centauro_logo.png';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+    const navigate = useNavigate();
+
+    const irInicio = () => {
+        navigate("/");
+    }
+
     return (
         <nav className="navbar-container d-flex align-items-center justify-content-between p-3 mb-3">
       
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column" onClick={irInicio} style={{cursor: 'pointer'}}>
                 <h2 className="mb-0 brand-title">Centauro</h2>
                 <h4 className="mb-0 brand-subtitle">Rent a car</h4>
             </div>
@@ -18,7 +25,7 @@ const Navbar = () => {
                 <Link to="users" className="nav-item">Usuarios</Link>
             </div>
 
-            <img src={logo} alt="Centauro logo" className="nav-logo" />
+            <a href="/"><img src={logo} alt="Centauro logo" className="nav-logo" /></a>
         </nav>
     );
 };

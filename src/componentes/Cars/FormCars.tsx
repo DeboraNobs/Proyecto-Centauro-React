@@ -405,7 +405,7 @@ const FormCars = () => {
           </div>
 
           <div className="col-12">
-            <div className={`custom-file w-100 ${id && isEditing ? 'd-none' : ''}`}>
+           <div className={`custom-file w-100 ${id && isEditing ? 'd-none' : ''}`}>
               <input
                 type="file"
                 name="imagen"
@@ -419,7 +419,8 @@ const FormCars = () => {
                   }
                 }}
               />
-            </div>
+            </div> 
+              
           </div>
 
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FleetFilterProps } from '../../types/types';
-import Button from './Button';
+import Button from '../Elements/Button';
 
 const FleetFilter: React.FC<FleetFilterProps> = ({ setSelectedPlazas, setSelectedTipoCambio, setSelectedTipoCoche }) => {
     const [selectedPlazas, setPlaza] = useState<number>(0);
@@ -26,13 +26,27 @@ const FleetFilter: React.FC<FleetFilterProps> = ({ setSelectedPlazas, setSelecte
         setSelectedTipoCoche(tipo_coche);
     }
 
-    const cancelarFiltros = () => {
+    const cancelarTodosFiltros = () => {
         setPlaza(0);
         setSelectedPlazas(0);
 
         setTipoCambio('');
         setSelectedTipoCambio('');
+        
+        setTipoCoche('');
+        setSelectedTipoCoche('');
+    }
 
+    // Cancelar filtros parciales
+    const cancelarFiltroPlaza = () => {
+        setPlaza(0);
+        setSelectedPlazas(0);
+    }
+    const cancelarFiltroTipoCambio = () => {
+        setTipoCambio('');
+        setSelectedTipoCambio('');
+    }
+    const cancelarFiltroTipoCoche = () => {
         setTipoCoche('');
         setSelectedTipoCoche('');
     }
@@ -59,6 +73,7 @@ const FleetFilter: React.FC<FleetFilterProps> = ({ setSelectedPlazas, setSelecte
                     </button>
 
                     <ul className="dropdown-menu" aria-labelledby="dropdownPlazas">
+                    <button type="button" className="dropdown-item" onClick={() => cancelarFiltroPlaza()}>Cancelar</button>
                         {NumeroPlazas.map((numero) => (
                             <li key={numero}>
                                 <button
@@ -93,6 +108,7 @@ const FleetFilter: React.FC<FleetFilterProps> = ({ setSelectedPlazas, setSelecte
                     </button>
 
                     <ul className="dropdown-menu" aria-labelledby="dropdownTipoCambio">
+                    <button type="button" className="dropdown-item" onClick={() => cancelarFiltroTipoCambio()}>Cancelar</button>
                         {TipoCambio.map((cambio) => (
                             <li key={cambio}>
                                 <button
@@ -127,6 +143,7 @@ const FleetFilter: React.FC<FleetFilterProps> = ({ setSelectedPlazas, setSelecte
                     </button>
 
                     <ul className="dropdown-menu" aria-labelledby="dropdownTipoCoche">
+                    <button type="button" className="dropdown-item" onClick={() => cancelarFiltroTipoCoche()}>Cancelar</button>
                         {TipoCoche.map((tipo_coche) => (
                             <li key={tipo_coche}>
                                 <button
@@ -144,7 +161,7 @@ const FleetFilter: React.FC<FleetFilterProps> = ({ setSelectedPlazas, setSelecte
 
                 <Button
                     type="button"
-                    onClick={() => cancelarFiltros()}
+                    onClick={() => cancelarTodosFiltros()}
                     style={{
                         color: "black",
                         padding: "6.5px",
