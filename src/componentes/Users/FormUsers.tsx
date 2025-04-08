@@ -25,7 +25,7 @@ const FormUsers = () => {
         }
 
         alert(`Usuario ${isEditing ? 'actualizado' : 'creado'} correctamente`);
-        navigate('/users');
+        navigate('/login');
       } catch (error: any) {
           console.error('Error en la operación:', error);
           setErrorMessage(error.message || `Error al ${isEditing ? 'actualizar' : 'crear'} el usuario`);
@@ -198,17 +198,18 @@ const FormUsers = () => {
           <hr />
           
           <div className="d-flex justify-content-between">
-            <Button
+          <Button
               type="button"
               style={{
                 color: "black",
                 padding: "7px",
-                backgroundColor: "lightgray",
-                border: "solid gray 2px"
+                backgroundColor: "beige",
+                border: "solid BurlyWood 2px"
               }}
               onClick={navegarListado}
               texto="Cancelar"
             />
+
             
             <Button
               type="submit"

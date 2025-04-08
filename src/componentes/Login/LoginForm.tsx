@@ -6,7 +6,7 @@ import { UsersService } from '../../servicios/UsersService';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
-  const [errorMessage, setErrorMessage] = useState('');
+  const [, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const { register, handleSubmit, formState: { errors } } = useForm<Login>();
@@ -23,7 +23,7 @@ const LoginForm = () => {
 
   return (
     <div className="login">
-      <img src={logo} alt="image" className="login__bg" />
+      <img src={logo} alt="login_bg" className="login__bg" />
 
       <form onSubmit={handleSubmit(onSubmit)} className="login__form">
         <h1 className="login__title">Iniciar Sesión</h1>
@@ -50,7 +50,6 @@ const LoginForm = () => {
             <label htmlFor="user-check" className="login__check-label">Recuérdame</label>
           </div>
 
-          <a href="#" className="login__forgot">Olvidó su contraseña?</a>
         </div>
 
         <button type="submit" className="login__button">Login</button>

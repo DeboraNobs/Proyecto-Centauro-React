@@ -118,13 +118,6 @@ const FormCars = () => {
         SucursalId: formData.SucursalId,
       };
 
-
-      /*let file: File | undefined;
-      if (formData.imagen instanceof File) {
-        file = formData.imagen;
-      } else if (typeof formData.imagen === 'string' && formData.imagen) {
-        carData.imagen = formData.imagen;
-      }*/
       const file = formData.imagen instanceof File ? formData.imagen : undefined;
 
       let result: Car;
