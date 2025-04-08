@@ -1,9 +1,11 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUser, FaEnvelope, FaMobileAlt, FaLock, FaUserShield } from 'react-icons/fa';
 import Button from '../Elements/Button';
 import { User } from '../../types/types';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UsersService } from '../../servicios/UsersService';
+
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 const FormUsers = () => {
   const { id } = useParams();
@@ -12,6 +14,27 @@ const FormUsers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<User>();
+  const onSubmit: SubmitHandler<User> = async data => {
+      try {
+        setIsLoading(true);
+        if (isEditing && id) {
+          await UsersService.updateUser(id, data);
+        } else {
+          await UsersService.createUser(data);
+        }
+
+        alert(`Usuario ${isEditing ? 'actualizado' : 'creado'} correctamente`);
+        navigate('/users');
+      } catch (error: any) {
+          console.error('Error en la operación:', error);
+          setErrorMessage(error.message || `Error al ${isEditing ? 'actualizar' : 'crear'} el usuario`);
+      } finally {
+          setIsLoading(false);
+      }
+  };
+  
+  /*
   const [formData, setFormData] = useState({
     id: 0,
     nombre: '',
@@ -21,14 +44,15 @@ const FormUsers = () => {
     password: '',
     rol: ''
   });
-
-  // Cargar datos del usuario si estamos editando
+*/
   useEffect(() => {
     if (id) {
-      const loadUserData = async () => {
+      const fetchUser = async () => {
         setIsLoading(true);
         try {
           const user = await UsersService.getUserById(id);
+          reset(user); // rellena el usuario
+          /*
           setFormData({
             id: user.id,
             nombre: user.nombre,
@@ -38,7 +62,7 @@ const FormUsers = () => {
             password: user.password || '',
             rol: user.rol
           });
-          setErrorMessage('');
+          */
         } catch (error) {
             console.error('Error al cargar usuario:', error);
             setErrorMessage('No se pudo cargar la información del usuario.');
@@ -46,35 +70,33 @@ const FormUsers = () => {
             setIsLoading(false);
         }
       };
-      loadUserData();
+      fetchUser();
     }
-  }, [id]);
+  }, [id, reset]);
 
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  /*const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
-
+ 
   
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+
+  const manejarEnvio = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage('');
 
     try {
-      let result: User;
-      
       if (isEditing && id) {
-        result = await UsersService.updateUser(id, formData);
+        await UsersService.updateUser(id, formData);
       } else {
-        result = await UsersService.createUser(formData);
+        await UsersService.createUser(formData);
       }
 
-      console.log('Operación exitosa:', result);
       alert(`Usuario ${isEditing ? 'actualizado' : 'creado'} correctamente`);
       navigate('/users');
       
@@ -85,6 +107,7 @@ const FormUsers = () => {
         setIsLoading(false);
     }
   };
+*/
 
   const navegarListado = () => {
     navigate('/users');
@@ -104,92 +127,118 @@ const FormUsers = () => {
         <h2 className="text-center mb-4">{isEditing ? 'Editar Usuario' : 'Registro de Usuario'}</h2>
         {errorMessage && <div className="alert alert-danger text-center">{errorMessage}</div>}
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="row mb-3">
-            <div className="col-md-6">
-              <div className="input-group">
-                <span className="input-group-text"><FaUser /></span>
-                <input 
-                  type="text" 
-                  name="nombre" 
-                  placeholder="Nombre" 
-                  value={formData.nombre} 
-                  onChange={handleChange} 
-                  className="form-control" 
-                  required 
-                />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="input-group">
-                <span className="input-group-text"><FaUser /></span>
-                <input 
-                  type="text" 
-                  name="apellidos" 
-                  placeholder="Apellidos" 
-                  value={formData.apellidos} 
-                  onChange={handleChange} 
-                  className="form-control" 
-                />
-              </div>
-            </div>
-          </div>
-          
-          <div className="row mb-3">
-            <div className="col-md-6">
-              <div className="input-group">
-                <span className="input-group-text"><FaEnvelope /></span>
-                <input 
-                  type="email" 
-                  name="email" 
-                  placeholder="Email" 
-                  value={formData.email} 
-                  onChange={handleChange} 
-                  className="form-control" 
-                  required 
-                />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="input-group">
-                <span className="input-group-text"><FaMobileAlt /></span>
-                <input 
-                  type="tel" 
-                  name="movil" 
-                  placeholder="Móvil" 
-                  value={formData.movil} 
-                  onChange={handleChange} 
-                  className="form-control" 
-                />
-              </div>
-            </div>
-          </div>
-          
-          <div className="row mb-3">
-            <div className="col-md-6">
-              <div className="input-group">
-                <span className="input-group-text"><FaLock /></span>
-                <input 
-                  type="password" 
-                  name="password" 
-                  placeholder="Contraseña" 
-                  value={formData.password} 
-                  onChange={handleChange} 
-                  className="form-control" 
-                  required={!isEditing}
-                  minLength={6}
-                />
-              </div>
-              {isEditing && <small className="text-muted">Dejar en blanco para no cambiar</small>}
-            </div>
             
             <div className="col-md-6">
               <div className="input-group">
+                <span className="input-group-text"><FaUser /></span>
+                <input {...register('nombre', { required: 'El nombre es requerido', 
+                                                 minLength: { 
+                                                      value: 4,
+                                                      message: 'El mínimo son 4 caracteres'
+                                                    },
+                                                  validate: valor => valor !== 'admin' ? true : 'No puede usar admin como nombre de usuario'
+                                              })}
+                  type="text"  
+                  placeholder="Nombre" 
+                  className="form-control" 
+                  required 
+                /> 
+              </div>
+              <p className='text-start text-danger'>{ errors.nombre?.message}</p>
+            </div>
+
+            <div className="col-md-6">
+              <div className="input-group">
+                <span className="input-group-text"><FaUser /></span>
+                <input {...register('apellidos', { required: 'Los apellidos son requeridos', 
+                                                  minLength: { 
+                                                      value: 2,
+                                                      message: 'El mínimo son 2 caracteres'
+                                                    },
+                                                    maxLength: { 
+                                                      value: 150,
+                                                      message: 'El máximo son 150 caracteres'
+                                                    },
+                                                })}
+                  type="text" 
+                  placeholder="Apellidos" 
+                  className="form-control" 
+                />
+              </div>
+              <p className='text-start text-danger'>{ errors.apellidos?.message}</p>
+            </div>
+
+          </div>
+          
+          <div className="row mb-3">
+
+            <div className="col-md-6">
+              <div className="input-group">
+                <span className="input-group-text"><FaEnvelope /></span>
+                <input {...register('email', { required: 'El email es requerido', 
+                                                minLength: { 
+                                                    value: 7,
+                                                    message: 'El mínimo son 7 caracteres'
+                                                },
+                                                maxLength: { 
+                                                  value: 150,
+                                                  message: 'El máximo son 150 caracteres'
+                                                },
+                                              })}
+                  type="email" 
+                  placeholder="Email" 
+                  className="form-control" 
+                  required 
+                />
+              </div>
+              <p className='text-start text-danger'>{ errors.email?.message}</p>
+            </div>
+
+            <div className="col-md-6">
+              <div className="input-group">
+                <span className="input-group-text"><FaMobileAlt /></span>
+                <input {...register('movil', { required: 'El móvil es requerido', 
+                                               pattern: {
+                                                  value: /^[0-9]{9}$/,
+                                                  message: "Debe ingresar 9 números, sin prefijo. Ejemplo: 645879898"
+                                                },
+                                             })}
+                  type="tel" 
+                  placeholder="Móvil" 
+                  className="form-control" 
+                />
+              </div>
+              <p className='text-start text-danger'>{ errors.movil?.message}</p>
+            </div>
+
+          </div>
+          
+          <div className="row mb-3">
+
+            <div className="col-md-6">
+              <div className="input-group">
+                <span className="input-group-text"><FaLock /></span>
+                <input {...register('password', { required: 'La contraseña es requerida', 
+                                                  pattern: {
+                                                    value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
+                                                    message: "La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula, y un número"
+                                                  }
+                                              })}
+                  type="password"
+                  placeholder="Contraseña" 
+                  className="form-control" 
+                />
+              </div>
+              <p className='text-start text-danger'>{ errors.password?.message}</p>
+            </div>
+            
+            <div className="col-md-6">
+
+              <div className="input-group">
                 <span className="input-group-text"><FaUserShield /></span>
-                <select 
-                  name="rol" 
-                  value={formData.rol} 
-                  onChange={handleChange} 
+                <select {...register('rol', { required: 'El rol es requerido' })}
                   className="form-select" 
                   required
                 >
@@ -198,7 +247,9 @@ const FormUsers = () => {
                   <option value="usuario">Usuario</option>
                 </select>
               </div>
+
             </div>
+            <p className='text-start text-danger'>{ errors.rol?.message}</p>
           </div>
 
           <hr />
