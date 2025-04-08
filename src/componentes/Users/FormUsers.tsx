@@ -34,17 +34,6 @@ const FormUsers = () => {
       }
   };
   
-  /*
-  const [formData, setFormData] = useState({
-    id: 0,
-    nombre: '',
-    apellidos: '',
-    email: '',
-    movil: '',
-    password: '',
-    rol: ''
-  });
-*/
   useEffect(() => {
     if (id) {
       const fetchUser = async () => {
@@ -52,17 +41,6 @@ const FormUsers = () => {
         try {
           const user = await UsersService.getUserById(id);
           reset(user); // rellena el usuario
-          /*
-          setFormData({
-            id: user.id,
-            nombre: user.nombre,
-            apellidos: user.apellidos || '',
-            email: user.email,
-            movil: user.movil || '',
-            password: user.password || '',
-            rol: user.rol
-          });
-          */
         } catch (error) {
             console.error('Error al cargar usuario:', error);
             setErrorMessage('No se pudo cargar la información del usuario.');
@@ -73,41 +51,6 @@ const FormUsers = () => {
       fetchUser();
     }
   }, [id, reset]);
-
-
-  /*const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
- 
-  
-
-  const manejarEnvio = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setErrorMessage('');
-
-    try {
-      if (isEditing && id) {
-        await UsersService.updateUser(id, formData);
-      } else {
-        await UsersService.createUser(formData);
-      }
-
-      alert(`Usuario ${isEditing ? 'actualizado' : 'creado'} correctamente`);
-      navigate('/users');
-      
-    } catch (error: any) {
-        console.error('Error en la operación:', error);
-        setErrorMessage(error.message || `Error al ${isEditing ? 'actualizar' : 'crear'} el usuario`);
-    } finally {
-        setIsLoading(false);
-    }
-  };
-*/
 
   const navegarListado = () => {
     navigate('/users');

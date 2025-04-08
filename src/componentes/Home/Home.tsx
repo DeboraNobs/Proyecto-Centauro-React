@@ -37,9 +37,7 @@ const Home = () => {
     return (
         <div className="container-fluid d-flex justify-content-center">
             {errorMessage && (
-                <div className="alert alert-danger mt-2" role="alert">
-                    {errorMessage}
-                </div>
+                <div className="alert alert-danger mt-2" role="alert"> {errorMessage}</div>
             )}
 
             <div className="row shadow p-4 rounded-4 mt-5" style={{ maxWidth: '1000px', width: '100%', backgroundColor: 'rgb(245, 245, 234)' }}>

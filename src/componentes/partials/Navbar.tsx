@@ -23,6 +23,7 @@ const Navbar = () => {
                 <Link to="fleet" className="nav-item">Flota</Link>
                 <Link to="cars" className="nav-item">Coches</Link>
                 <Link to="users" className="nav-item">Usuarios</Link>
+                <Link to="login" className='nav-item'>Login</Link>
             </div>
 
             <a href="/"><img src={logo} alt="Centauro logo" className="nav-logo" /></a>

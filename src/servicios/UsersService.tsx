@@ -1,4 +1,4 @@
-import { User } from "../types/types";
+import { Login, User } from "../types/types";
 
 const API_URL = 'http://localhost:5038/api/usuario';
 
@@ -87,6 +87,25 @@ export const UsersService = {
 
         } catch (error) {
             console.error("Error al crear usuario", error);
+            throw error;
+        }
+    },
+
+    async login(loginData : Login): Promise<Login> {
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData)
+            });
+            
+            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+            
+            return await response.json();
+        } catch (error) {
+            console.error("Error al hacer login", error);
             throw error;
         }
     }

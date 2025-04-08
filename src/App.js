@@ -11,6 +11,7 @@ import FormCars from './componentes/Cars/FormCars';
 import FleetFilter from './componentes/Fleet/FleetFilter';
 import Home from './componentes/Home/Home';
 import Availability from './componentes/Fleet/Availability';
+import LoginForm from './componentes/Login/LoginForm';
 
 
 function App() {
@@ -37,7 +38,9 @@ function App() {
         <Route path="/form-users/:id" element={<FormUsers />} />
 
         <Route path="/form-cars" element={<FormCars />}></Route>
-        <Route path="/form-cars/:id" element={<FormCars />}> </Route>
+        <Route path="/form-cars/:id" element={<FormCars />}></Route>
+
+        <Route path="/login" element= {<LoginForm />}></Route>
         
       </Routes>
     </div>

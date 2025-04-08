@@ -1,16 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
 
-export type Group = {
-    id: string | number;
-    nombre: string;
-    descripcion: string;
-}
-
-export type Sucursal = {
-    id: string | number;
-    nombre: string;
-}
-
 export type Car = {
     id: number;
     marca: string;
@@ -30,10 +19,6 @@ export type Car = {
     sucursal?: Sucursal;
 }
 
-export type CarDetailsProps = {
-    coche: Car;
-}
-
 export type User = {
     id: number;
     nombre: string;
@@ -42,6 +27,17 @@ export type User = {
     movil: string;
     password: string;
     rol: string;
+}
+
+export type Group = {
+    id: string | number;
+    nombre: string;
+    descripcion: string;
+}
+
+export type Sucursal = {
+    id: string | number;
+    nombre: string;
 }
 
 export type Rental = {
@@ -56,6 +52,16 @@ export type Borrar = {
     texto: string;
     className: string;
     color?: string;
+}
+
+export type Login = {
+    Email: string;
+    Password: string;
+}
+
+/* PROPS */
+export type CarDetailsProps = {
+    coche: Car;
 }
 
 export type ButtonProps = {
