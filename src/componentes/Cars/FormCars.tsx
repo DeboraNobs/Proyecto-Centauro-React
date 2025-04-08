@@ -146,6 +146,10 @@ const FormCars = () => {
     }
   }
 
+  const navegarListado = () => {
+    navigate('/cars');
+  }
+
   if (isLoading) {
     return (
       <div className="container mt-5">
@@ -406,7 +410,6 @@ const FormCars = () => {
           </div>
 
           <div className="col-12">
-           { //<div className={`custom-file w-100 ${id && isEditing ? 'd-none' : ''}`}>
               <input
                 type="file"
                 name="imagen"
@@ -420,22 +423,21 @@ const FormCars = () => {
                   }
                 }}
               />
-            // </div> 
-}
           </div>
 
 
           <hr />
-
+                
           <div className="d-flex justify-content-between">
             <Button
               type="button"
               style={{
                 color: "black",
                 padding: "7px",
-                backgroundColor: "lightgray",
-                border: "solid gray 2px"
+                backgroundColor: "beige",
+                border: "solid BurlyWood 2px"
               }}
+              onClick={navegarListado}
               texto="Cancelar"
             />
 

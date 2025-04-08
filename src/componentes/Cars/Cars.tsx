@@ -91,7 +91,7 @@ const Cars = () => {
             {mensajeError && <div className="alert alert-danger">{mensajeError}</div>}
             {mensajeExito && <div className="alert alert-success">{mensajeExito}</div>}
 
-            <table className="table table-striped" style={{ backgroundColor: "white" }}>
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th>Marca</th>

@@ -86,6 +86,10 @@ const FormUsers = () => {
     }
   };
 
+  const navegarListado = () => {
+    navigate('/users');
+  }
+
   if (isLoading) {
     return (
       <div className="container mt-5">
@@ -208,6 +212,7 @@ const FormUsers = () => {
                 backgroundColor: "lightgray",
                 border: "solid gray 2px"
               }}
+              onClick={navegarListado}
               texto="Cancelar"
             />
             

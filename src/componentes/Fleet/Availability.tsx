@@ -1,22 +1,28 @@
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
 import { Car } from '../../types/types';
 import CarDetails from './CarDetails';
+import Button from '../Elements/Button';
 
 const Availability = () => {
   const [searchParams] = useSearchParams();
   const sucursalId = Number(searchParams.get('sucursalId'));
   const [coches, setCoches] = useState<Car[]>([]);
+const navigate = useNavigate();
 
   useEffect(() => {
     if (sucursalId) {
       fetch(`http://localhost:5038/api/coche/con-filtrado?sucursalId=${sucursalId}`)
         .then((res) => res.json())
         .then((data) => {
-          setCoches(data.$values);
+          setCoches(data.$values || []);
         });
     }
   }, [sucursalId]);
+
+  const navegarListado = () => {
+    navigate('/');
+  }
 
     return (
         <div className='container'>
@@ -32,7 +38,22 @@ const Availability = () => {
                         </div>
                     ))
                 ) : (
+                    <>
                     <p>Ningún coche coincide con su selección</p>
+                    
+                    <hr />
+                        <div className="d-flex justify-content-center">
+                            <Button
+                                type="button"
+                                style={{
+                                    color: "black",
+                                    padding: "7px",
+                                    backgroundColor: "beige",
+                                    border: "solid BurlyWood 2px"
+                                }}
+                                onClick={navegarListado}
+                                texto="Volver a filtro de búsqueda" />
+                        </div></>
                 )}
 
             </div>
