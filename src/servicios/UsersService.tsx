@@ -90,25 +90,31 @@ export const UsersService = {
             throw error;
         }
     },
-
-    async login(loginData : Login): Promise<Login> {
+ 
+    async login(loginData: Login): Promise<void> {
         try {
             const response = await fetch(`${API_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(loginData)
+                body: JSON.stringify(loginData),
             });
-            
+    
             if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-            
-            return await response.json();
+    
+            const data = await response.json();
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+                return data.usuario;
+            } else {
+                throw new Error("No se recibió un token válido.");
+            }
+    
         } catch (error) {
             console.error("Error al hacer login", error);
             throw error;
         }
-    }
-
+    }   
 
 }

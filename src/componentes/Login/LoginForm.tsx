@@ -17,9 +17,10 @@ const LoginForm = () => {
         navigate('/');
     } catch (error: any) {
         console.error('Error en la operación:', error);
-        setErrorMessage(error.message);
+        setErrorMessage(error.message || 'Error desconocido');
     }
   };
+
 
   return (
     <div className="login">

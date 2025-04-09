@@ -20,12 +20,14 @@ const FormUsers = () => {
         setIsLoading(true);
         if (isEditing && id) {
           await UsersService.updateUser(id, data);
+          navigate('/users');
         } else {
           await UsersService.createUser(data);
+          navigate('/login');
         }
 
         alert(`Usuario ${isEditing ? 'actualizado' : 'creado'} correctamente`);
-        navigate('/login');
+       
       } catch (error: any) {
           console.error('Error en la operación:', error);
           setErrorMessage(error.message || `Error al ${isEditing ? 'actualizar' : 'crear'} el usuario`);
