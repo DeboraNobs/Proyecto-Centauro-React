@@ -18,7 +18,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
                     <img
                         src={imageSrc}
                         alt={`${coche.marca} ${coche.modelo}`}
-                        className="card-img-top"
+                        className="card-img-top img-hover"
                         style={{ objectFit: "cover", width: "100%", height: "160px" }}
                     />
                 )}

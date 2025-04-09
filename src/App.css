@@ -22,6 +22,12 @@ body {
   text-align: justify;
 }
 
+.img-hover {
+  transition: transform 0.3s ease;
+}
+.img-hover:hover {
+  transform: translateX(+6%);
+}
 
 /* Estilos NAVBAR */
 .navbar-container {

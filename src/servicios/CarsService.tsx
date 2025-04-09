@@ -50,36 +50,6 @@ export const CarsService = {
         }
     },
     
-    /*
-    async updateCar(id: number, carData: Car, file?: File): Promise<Car> {
-        try {
-            const response = await fetch(`${API_URL}/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(carData)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.text(); // Obtener el cuerpo como texto
-                let errorMessage = `Error ${response.status}: ${response.statusText}`;
-                try {
-                    const jsonError = JSON.parse(errorData);
-                    errorMessage = jsonError.message || `Error ${response.status}: ${response.statusText}`;
-                } catch {
-                    console.warn("No se pudo parsear el error como JSON:", errorData);
-                }
-                throw new Error(errorMessage);
-            }
-            const responseText = await response.text();
-            
-            return responseText ? JSON.parse(responseText) : {} as Car;
-
-        } catch (error) {
-            console.error("Detalles del error al actualizar:", { id, carData, error });
-            throw error;
-        }
-    }
-    */
     async updateCar(id: number, carData: Car, file?: File): Promise<Car> {
         try {
             const formData = new FormData();
