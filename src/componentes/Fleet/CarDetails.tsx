@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { CarDetailsProps } from "../../types/types";
 import Button from "../Elements/Button";
 import { FaCar, FaExchangeAlt, FaLayerGroup, FaSnowflake, FaUserFriends } from "react-icons/fa";
 import { GiCarDoor } from "react-icons/gi";
 import { MdOutlineLuggage } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
+
+    /* para enviar el id del coche a rentalDetails */
+    const navigate = useNavigate();
+    const [, setId] = useState<number>(0);
+
+    const guardarIdCocheSeleccionado = () => {
+        setId(coche.id);
+        console.log(coche.id);
+
+        if (coche.id) {
+            navigate(`/rentalsDetails?id=${coche.id}`);
+        }
+    }
+    /* para enviar el id del coche a rentalDetails */
+
     const imageSrc = coche.imagen ? `data:image/jpeg;base64,${coche.imagen}` : null;
 
     return (
@@ -72,10 +88,13 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
                     </div>
                 </div>
 
-                <p className="card-text">
-                    <FaLayerGroup />
-                    {coche.grupo ? coche.grupo.nombre : `ID: ${coche.GrupoId} (Sin grupo)`}
-                </p>
+                { /*
+                    <p className="card-text">
+                        <FaLayerGroup />
+                        {coche.grupo ? coche.grupo.nombre : `ID: ${coche.GrupoId} (Sin grupo)`}
+                    </p>
+                  */
+                }
 
             </div>
             <div className="card-footer">
@@ -87,6 +106,10 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
                         border: "solid BurlyWood 2px"
                     }}
                     texto="Reservar"
+                    onClick={
+                        () => guardarIdCocheSeleccionado()
+                    }
+
                 />
             </div>
         </div>

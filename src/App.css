@@ -213,8 +213,8 @@ img {
 }
 
 
-/* 404 not found */
-svg {
+/* 404 not found componente */
+.svg-notfound {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -229,7 +229,7 @@ svg {
   left: 50%;
   margin-top: -100px;
   margin-left: 50px;
-  color: #FFF;
+  color:  BurlyWood;
   font-family: Roboto;
   font-weight: 300;
 }
@@ -242,19 +242,20 @@ svg {
   margin-top: 40px;
 }
 .buttons-con .action-link-wrap a {
-  background: #68c950;
+  background: rgb(245, 245, 234);
   padding: 8px 25px;
   border-radius: 4px;
-  color: #FFF;
+  color: BurlyWood;
   font-weight: bold;
   font-size: 14px;
+  border:  BurlyWood solid 2px;
   transition: all 0.3s linear;
   cursor: pointer;
   text-decoration: none;
-  margin-right: 10px
+  margin-right: 10px;
 }
 .buttons-con .action-link-wrap a:hover {
-  background: #5A5C6C;
+  background-color: #db905b;
   color: #fff;
 }
 
@@ -285,7 +286,7 @@ svg {
     top: 50%;
     left: 50%;
     margin-top: -250px;
-    margin-left: -190px;
+    margin-left: -190px; 
   }
   .message-box {
     top: 50%;

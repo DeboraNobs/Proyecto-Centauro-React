@@ -8,7 +8,7 @@ const Availability = () => {
   const [searchParams] = useSearchParams();
   const sucursalId = Number(searchParams.get('sucursalId'));
   const [coches, setCoches] = useState<Car[]>([]);
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (sucursalId) {

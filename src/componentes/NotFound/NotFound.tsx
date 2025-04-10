@@ -1,9 +1,9 @@
-import React from 'react'
+ import React from 'react'
 
 const NotFound = () => {
     return (
         <>
-            <svg
+            <svg className='svg-notfound'
                 width="380px"
                 height="500px"
                 viewBox="0 0 837 1045"
@@ -70,6 +70,5 @@ const NotFound = () => {
 export default NotFound;
 
 
-{
-    // link de codigo fuente =>  https://codepen.io/sarazond/pen/jOKyjZ
-}
+
+// link de codigo fuente =>  https://codepen.io/sarazond/pen/jOKyjZ

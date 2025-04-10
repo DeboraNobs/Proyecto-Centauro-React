@@ -13,6 +13,8 @@ import Home from './componentes/Home/Home';
 import Availability from './componentes/Fleet/Availability';
 import LoginForm from './componentes/Login/LoginForm';
 import NotFound from './componentes/NotFound/NotFound';
+import Rentals from './componentes/Rentals/Rentals';
+import RentalDetails from './componentes/Rentals/RentalDetails';
 
 function App() {
   return (
@@ -27,7 +29,9 @@ function App() {
         <Route path="/fleet" element={
           <Fleet>
             <FleetFilter />
-            <CarDetails />
+            { // <CarDetails /> // 
+            }
+            <Route path="/car-details" element={<CarDetails />} />
           </Fleet>
         } />
         
@@ -41,6 +45,9 @@ function App() {
         <Route path="/form-cars/:id" element={<FormCars />}></Route>
 
         <Route path="/login" element= {<LoginForm />}></Route>
+
+        <Route path="/rentals" element= {<Rentals />}></Route>
+        <Route path="/rentalsDetails" element= {<RentalDetails />}></Route>
 
         <Route path="*" element= {<NotFound />}></Route>
 

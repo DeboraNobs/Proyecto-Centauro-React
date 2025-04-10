@@ -17,7 +17,8 @@ const Navbar = () => {
     }
 
     const isLoggedIn = JSON.parse(localStorage.getItem('loggedIn') ?? 'false');
-
+    const username = localStorage.getItem('username');
+    
     return (
         <nav className="navbar-container d-flex align-items-center justify-content-between p-3 mb-3">
       
@@ -35,6 +36,11 @@ const Navbar = () => {
                 {isLoggedIn &&
                     <Link to="login" className='nav-item' onClick={logout}>Logout</Link>
                 }
+                {isLoggedIn &&
+                    <p className='mt-3 brand-subtitle'> Hola {username} </p>
+                }
+                
+                <Link to="rentals" className='nav-item'>Rentals</Link>               
             </div>
 
             <a href="/"><img src={logo} alt="Centauro logo" className="nav-logo" /></a>
