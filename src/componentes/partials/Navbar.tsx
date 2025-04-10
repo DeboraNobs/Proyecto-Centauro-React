@@ -10,6 +10,14 @@ const Navbar = () => {
         navigate("/");
     }
 
+    const logout = () => {
+        localStorage.clear();
+        localStorage.setItem('loggedIn', JSON.stringify(false));
+        navigate('/');
+    }
+
+    const isLoggedIn = JSON.parse(localStorage.getItem('loggedIn') ?? 'false');
+
     return (
         <nav className="navbar-container d-flex align-items-center justify-content-between p-3 mb-3">
       
@@ -24,6 +32,9 @@ const Navbar = () => {
                 <Link to="cars" className="nav-item">Coches</Link>
                 <Link to="users" className="nav-item">Usuarios</Link>
                 <Link to="login" className='nav-item'>Login</Link>
+                {isLoggedIn &&
+                    <Link to="login" className='nav-item' onClick={logout}>Logout</Link>
+                }
             </div>
 
             <a href="/"><img src={logo} alt="Centauro logo" className="nav-logo" /></a>

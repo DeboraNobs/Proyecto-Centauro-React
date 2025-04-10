@@ -12,7 +12,7 @@ import FleetFilter from './componentes/Fleet/FleetFilter';
 import Home from './componentes/Home/Home';
 import Availability from './componentes/Fleet/Availability';
 import LoginForm from './componentes/Login/LoginForm';
-
+import NotFound from './componentes/NotFound/NotFound';
 
 function App() {
   return (
@@ -41,7 +41,9 @@ function App() {
         <Route path="/form-cars/:id" element={<FormCars />}></Route>
 
         <Route path="/login" element= {<LoginForm />}></Route>
-        
+
+        <Route path="*" element= {<NotFound />}></Route>
+
       </Routes>
     </div>
   );

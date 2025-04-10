@@ -101,11 +101,12 @@ export const UsersService = {
                 body: JSON.stringify(loginData),
             });
     
-            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+            if (!response.ok) throw new Error('Credenciales inválidas');
     
             const data = await response.json();
             if (data.token) {
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('loggedIn', JSON.stringify(true));
                 return data.usuario;
             } else {
                 throw new Error("No se recibió un token válido.");
