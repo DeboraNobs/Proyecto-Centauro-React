@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CarDetailsProps } from "../../types/types";
 import Button from "../Elements/Button";
-import { FaCar, FaExchangeAlt, FaLayerGroup, FaSnowflake, FaUserFriends } from "react-icons/fa";
+import { FaCar, FaExchangeAlt, FaSnowflake, FaUserFriends } from "react-icons/fa";
 import { GiCarDoor } from "react-icons/gi";
 import { MdOutlineLuggage } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -11,13 +11,28 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
     /* para enviar el id del coche a rentalDetails */
     const navigate = useNavigate();
     const [, setId] = useState<number>(0);
+    const [, setMarca] = useState('');
+    const [, setModelo] = useState('');
+    const [, setDescripcion] = useState('');
+    const [, setAire] = useState(false);
+    const [, setTipoCoche] = useState('');
+    const [, setTipoCambio] = useState('');
+    const [, setNumPuertas] = useState<number>(0);
+    const [, setNumPlazas] = useState<number>(0);
 
-    const guardarIdCocheSeleccionado = () => {
+    const guardarCocheSeleccionado = () => {
         setId(coche.id);
-        console.log(coche.id);
+        setMarca(coche.marca);
+        setModelo(coche.modelo);
+        setDescripcion(coche.descripcion);
+        setAire(coche.posee_aire_acondicionado);
+        setTipoCoche(coche.tipo_coche);
+        setTipoCambio(coche.tipo_cambio);
+        setNumPuertas(coche.num_puertas);
+        setNumPlazas(coche.num_plazas);
 
         if (coche.id) {
-            navigate(`/rentalsDetails?id=${coche.id}`);
+            navigate(`/rentalsDetails?id=${coche.id}&marca=${coche.marca}&modelo=${coche.modelo}&descripcion=${coche.descripcion}&aire=${coche.posee_aire_acondicionado}&tipo_coche=${coche.tipo_coche}&tipo_cambio=${coche.tipo_cambio}&num_puertas=${coche.num_puertas}&num_plazas=${coche.num_plazas}`);
         }
     }
     /* para enviar el id del coche a rentalDetails */
@@ -107,7 +122,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
                     }}
                     texto="Reservar"
                     onClick={
-                        () => guardarIdCocheSeleccionado()
+                        () => guardarCocheSeleccionado()
                     }
 
                 />

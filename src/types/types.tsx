@@ -41,11 +41,15 @@ export type Sucursal = {
 }
 
 export type Rental = {
-    id: number | string;
-    fecha_inicio: Date;
-    fecha_fin: Date;
-    
-    user_id: number | string;
+    id: number;
+    fechainicio: Date; // fechainicio esta en minuscula la i de inicio porque sino debo hacer una migracion
+    fechaFin: Date;
+    lugarRecogida: string;
+    lugarDevolucion: string;
+    horarioRecogida: Date;
+    horarioDevolucion: Date;
+
+    user_id?: number;
 }
 
 export type Borrar = {

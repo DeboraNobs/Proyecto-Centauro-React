@@ -29,9 +29,7 @@ const Home = () => {
     }
 
     const redirigirAvailability = () => {
-        if (selectedSucursalId) {
-            navigate(`/availability?sucursalId=${selectedSucursalId}`);
-        }
+        navigate(`/availability?sucursalId=${selectedSucursalId}`);
     }
 
     return (
@@ -45,13 +43,13 @@ const Home = () => {
                 <div className="col-md-7 d-flex flex-column justify-content-center">
                     <h2 className="text-center mb-4">Alquiler de coches</h2>
 
-                    <label className="text-start mb-1">Sucursal</label> { /* En principio queda como sucursal en lugar de dividir en LugarRecogida y LugarDevolución */ }
+                    <label className="text-start mb-1">Sucursal recogida</label> { /* En principio queda como sucursal en lugar de dividir en LugarRecogida y LugarDevolución */ }
                     <div className="input-group mb-3">
                         <span className="input-group-text bg-outline-secondary text-black">
                             <i className="bi bi-arrow-down-right"></i>
                         </span>
                         <select
-                            name="LugarRecogida"
+                            name="lugar_recogida"
                             className="form-select"
                             required
                             value={selectedSucursalId}
@@ -68,6 +66,28 @@ const Home = () => {
                         </select>
                     </div>
 
+                    <label className="text-start mb-1">Sucursal devolución</label> 
+                    <div className="input-group mb-3">
+                        <span className="input-group-text bg-outline-secondary text-black">
+                            <i className="bi bi-arrow-down-right"></i>
+                        </span>
+                        <select
+                            name="lugar_devolucion"
+                            className="form-select"
+                            required
+                            /* value={selectedSucursalId}
+                            onChange={
+                                (e) => guardarSucursalSeleccionada(Number(e.target.value))
+                            } */
+                        >
+                            <option value="">Seleccione un lugar de devolución</option>
+                            {sucursales.map((sucursal) => (
+                                <option key={sucursal.id} value={sucursal.id}>
+                                    {sucursal.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
                     <div className="row"> 
                         <div className="col-6 mb-3">
@@ -76,7 +96,7 @@ const Home = () => {
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-calendar4-range"></i>
                                 </span>
-                                <input type="date" name="FechaInicio" className="form-control" />
+                                <input type="date" name="fecha_inicio" className="form-control" />
                             </div>
                         </div>
                         <div className="col-6 mb-3">
@@ -85,7 +105,7 @@ const Home = () => {
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-calendar4-range"></i>
                                 </span>
-                                <input type="date" name="FechaFin" className="form-control" />
+                                <input type="date" name="fecha_fin" className="form-control" />
                             </div>
                         </div>
                     </div>
@@ -97,7 +117,7 @@ const Home = () => {
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-clock"></i>
                                 </span>
-                                <input type="time" name="HorarioRecogida" className="form-control" />
+                                <input type="time" name="horario_recogida" className="form-control" />
                             </div>
                         </div>
                         <div className="col-6 mb-3">
@@ -106,7 +126,7 @@ const Home = () => {
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-clock"></i>
                                 </span>
-                                <input type="time" name="HorarioDevolucion" className="form-control" />
+                                <input type="time" name="horario_devolucion" className="form-control" />
                             </div>
                         </div>
                     </div>
