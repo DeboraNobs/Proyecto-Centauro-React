@@ -7,8 +7,16 @@ const RentalDetails = () => {
 
   const [auto, setAuto] = useState<Car | null>(null);
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const id = searchParams.get("id");
+  const searchParams= new URLSearchParams(location.search);
+
+  const id = Number(searchParams.get('id'));
+  const sucursalId = Number(searchParams.get('sucursalId'));
+   
+  const fechaInicio = searchParams.get('fechainicio') ? new Date(searchParams.get('fechainicio')!) : new Date();
+  const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date();
+
+  const horarioRecogida = searchParams.get('horarioRecogida') || '';
+  const horarioDevolucion = searchParams.get('horarioDevolucion') || '';
 
   useEffect(() => {
     if (id) {
@@ -35,7 +43,14 @@ const RentalDetails = () => {
   return (
     <div className='container'>
       <h2 className='mb-4'>Detalles del coche que desea alquilar:</h2>
-      <CarDetails coche={auto} />
+        <CarDetails
+          coche={auto}
+          selectedSucursalId={sucursalId}
+          fechainicio={fechaInicio}
+          fechaFin={fechaFin}
+          selectedHorarioRecogida={horarioRecogida}
+          selectedHorarioDevolucion={horarioDevolucion}
+        />
     </div>
   );
 }

@@ -6,11 +6,20 @@ import { GiCarDoor } from "react-icons/gi";
 import { MdOutlineLuggage } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
+const CarDetails: React.FC<CarDetailsProps> = ({
+    coche,
+    selectedSucursalId,
+    fechainicio,
+    fechaFin,
+    selectedHorarioRecogida,
+    selectedHorarioDevolucion
+}) => {
 
     /* para enviar el id del coche a rentalDetails */
     const navigate = useNavigate();
     const [, setId] = useState<number>(0);
+    
+    /*
     const [, setMarca] = useState('');
     const [, setModelo] = useState('');
     const [, setDescripcion] = useState('');
@@ -19,9 +28,11 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
     const [, setTipoCambio] = useState('');
     const [, setNumPuertas] = useState<number>(0);
     const [, setNumPlazas] = useState<number>(0);
+    */
 
     const guardarCocheSeleccionado = () => {
         setId(coche.id);
+        /*
         setMarca(coche.marca);
         setModelo(coche.modelo);
         setDescripcion(coche.descripcion);
@@ -30,12 +41,13 @@ const CarDetails: React.FC<CarDetailsProps> = ({ coche }) => {
         setTipoCambio(coche.tipo_cambio);
         setNumPuertas(coche.num_puertas);
         setNumPlazas(coche.num_plazas);
+        */
 
-        if (coche.id) {
-            navigate(`/rentalsDetails?id=${coche.id}&marca=${coche.marca}&modelo=${coche.modelo}&descripcion=${coche.descripcion}&aire=${coche.posee_aire_acondicionado}&tipo_coche=${coche.tipo_coche}&tipo_cambio=${coche.tipo_cambio}&num_puertas=${coche.num_puertas}&num_plazas=${coche.num_plazas}`);
-        }
+        navigate(`/rentalsDetails?id=${coche.id}&sucursalId=${selectedSucursalId}&fechainicio=${fechainicio.toISOString()}&fechaFin=${fechaFin.toISOString()}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`
+        );
+
+        //navigate(`/rentalsDetails?id=${coche.id}&marca=${coche.marca}&modelo=${coche.modelo}&descripcion=${coche.descripcion}&aire=${coche.posee_aire_acondicionado}&tipo_coche=${coche.tipo_coche}&tipo_cambio=${coche.tipo_cambio}&num_puertas=${coche.num_puertas}&num_plazas=${coche.num_plazas}`);
     }
-    /* para enviar el id del coche a rentalDetails */
 
     const imageSrc = coche.imagen ? `data:image/jpeg;base64,${coche.imagen}` : null;
 

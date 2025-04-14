@@ -66,6 +66,11 @@ export type Login = {
 /* PROPS */
 export type CarDetailsProps = {
     coche: Car;
+    selectedSucursalId: number;
+    fechainicio: Date;
+    fechaFin: Date;
+    selectedHorarioRecogida: string;
+    selectedHorarioDevolucion: string
 }
 
 export type ButtonProps = {

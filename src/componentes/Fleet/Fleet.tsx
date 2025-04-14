@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import CarDetails from './CarDetails';
 import { Car } from '../../types/types';
 import FleetFilter from '../Fleet/FleetFilter';
+import { useSearchParams } from 'react-router-dom';
 
 const Fleet = () => {
 
@@ -11,6 +12,13 @@ const Fleet = () => {
     const [selectedTipoCambio, setSelectedTipoCambio] = useState('');
     const [selectedTipoCoche, setSelectedTipoCoche] = useState('');
 
+    const [searchParams] = useSearchParams();
+      const fechaInicio = searchParams.get('fechainicio') ? new Date(searchParams.get('fechainicio')!) : new Date();
+      const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date();
+      const horarioRecogida = searchParams.get('horarioRecogida') || '';
+      const horarioDevolucion = searchParams.get('horarioDevolucion') || '';
+      const sucursalId = Number(searchParams.get('sucursalId'));
+      
     useEffect(() => {
         fetch('http://localhost:5038/api/coche') // si pruebo con el endpoint que trae grupos (/con-grupo) me muestra ls grupos pero los creados por form no
             .then(res => res.json())
@@ -45,7 +53,14 @@ const Fleet = () => {
                         <div className="col-12 col-md-6 col-lg-4 mb-3" 
                             key={coche.id}
                         >
-                            <CarDetails coche={coche} />
+                            <CarDetails 
+                                coche={coche} 
+                                selectedSucursalId={sucursalId}
+                                fechainicio={fechaInicio}
+                                fechaFin={fechaFin}
+                                selectedHorarioRecogida={horarioRecogida}
+                                selectedHorarioDevolucion={horarioDevolucion}
+                            />
                         </div>
                     ))
                 ) : (

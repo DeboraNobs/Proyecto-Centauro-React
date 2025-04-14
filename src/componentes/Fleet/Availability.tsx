@@ -6,7 +6,12 @@ import Button from '../Elements/Button';
 
 const Availability = () => {
   const [searchParams] = useSearchParams();
+  const fechaInicio = searchParams.get('fechainicio') ? new Date(searchParams.get('fechainicio')!) : new Date();
+  const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date();
+  const horarioRecogida = searchParams.get('horarioRecogida') || '';
+  const horarioDevolucion = searchParams.get('horarioDevolucion') || '';
   const sucursalId = Number(searchParams.get('sucursalId'));
+
   const [coches, setCoches] = useState<Car[]>([]);
   const navigate = useNavigate();
 
@@ -34,7 +39,14 @@ const Availability = () => {
                         <div className="col-12 col-md-6 col-lg-4 mb-3"
                             key={coche.id}
                         >
-                            <CarDetails coche={coche} />
+                        <CarDetails
+                            coche={coche}
+                            selectedSucursalId={sucursalId}
+                            fechainicio={new Date(fechaInicio)}
+                            fechaFin={new Date(fechaFin)}
+                            selectedHorarioRecogida={horarioRecogida}
+                            selectedHorarioDevolucion={horarioDevolucion}
+                        />
                         </div>
                     ))
                 ) : (

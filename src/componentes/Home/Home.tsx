@@ -8,9 +8,14 @@ const Home = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [sucursales, setSucursales] = useState<{ id: string | number; nombre: string }[]>([]);
 
-    const [selectedSucursalId, setSucursalId] = useState<number>(0); 
+    const [selectedSucursalId, setSucursalId] = useState<number>(0);
+    const [selectedFechaInicio, setFechaInicio] = useState<Date>();
+    const [selectedFechaFin, setFechaFin] = useState<Date>();
+    const [selectedHorarioRecogida, setHorarioRecogida] = useState('');
+    const [selectedHorarioDevolucion, setHorarioDevolucion] = useState('');
+
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         const fetchSucursales = async () => {
             try {
@@ -24,12 +29,32 @@ const Home = () => {
         fetchSucursales();
     }, []);
 
+    // guardar datos seleccionados
     const guardarSucursalSeleccionada = (sucursal: number) => {
         setSucursalId(sucursal);
     }
+    const guardarFechaInicioSeleccionada = (fechainicio: Date) => {
+        setFechaInicio(fechainicio);
+    }
+    const guardarFechaFinSeleccionada = (fechaFin: Date) => {
+        setFechaFin(fechaFin);
+    }
+    const guardarHorarioRecogidaSeleccionada = (horarioRecogida: string) => {
+        setHorarioRecogida(horarioRecogida);
+    }
+    const guardarHorarioDevolucionSeleccionada = (horarioDevolucion: string) => {
+        setHorarioDevolucion(horarioDevolucion);
+    }
 
     const redirigirAvailability = () => {
-        navigate(`/availability?sucursalId=${selectedSucursalId}`);
+        const fechaInicioFormateada = selectedFechaInicio
+            ? selectedFechaInicio.toISOString() // .split('T')[0]
+            : '';
+
+        const fechaFinFormateada = selectedFechaFin
+            ? selectedFechaFin.toISOString() // split('T')[0]
+            : '';
+        navigate(`/availability?sucursalId=${selectedSucursalId}&fechainicio=${fechaInicioFormateada}&fechaFin=${fechaFinFormateada}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`);
     }
 
     return (
@@ -43,13 +68,13 @@ const Home = () => {
                 <div className="col-md-7 d-flex flex-column justify-content-center">
                     <h2 className="text-center mb-4">Alquiler de coches</h2>
 
-                    <label className="text-start mb-1">Sucursal recogida</label> { /* En principio queda como sucursal en lugar de dividir en LugarRecogida y LugarDevolución */ }
+                    <label className="text-start mb-1">Sucursal recogida</label> { /* En principio queda como sucursal en lugar de dividir en LugarRecogida y LugarDevolución */}
                     <div className="input-group mb-3">
                         <span className="input-group-text bg-outline-secondary text-black">
                             <i className="bi bi-arrow-down-right"></i>
                         </span>
                         <select
-                            name="lugar_recogida"
+                            name="lugarRecogida"
                             className="form-select"
                             required
                             value={selectedSucursalId}
@@ -66,19 +91,15 @@ const Home = () => {
                         </select>
                     </div>
 
-                    <label className="text-start mb-1">Sucursal devolución</label> 
+                    <label className="text-start mb-1">Sucursal devolución</label>
                     <div className="input-group mb-3">
                         <span className="input-group-text bg-outline-secondary text-black">
                             <i className="bi bi-arrow-down-right"></i>
                         </span>
                         <select
-                            name="lugar_devolucion"
+                            name="lugarDevolucion"
                             className="form-select"
                             required
-                            /* value={selectedSucursalId}
-                            onChange={
-                                (e) => guardarSucursalSeleccionada(Number(e.target.value))
-                            } */
                         >
                             <option value="">Seleccione un lugar de devolución</option>
                             {sucursales.map((sucursal) => (
@@ -89,50 +110,76 @@ const Home = () => {
                         </select>
                     </div>
 
-                    <div className="row"> 
+                    <div className="row">
+
                         <div className="col-6 mb-3">
                             <label className="form-label mt-1 text-start w-100">Fecha inicio</label>
                             <div className="input-group">
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-calendar4-range"></i>
                                 </span>
-                                <input type="date" name="fecha_inicio" className="form-control" />
+                                <input type="date" name="fechainicio" className="form-control"
+                                    value={selectedFechaInicio ? selectedFechaInicio.toISOString().split('T')[0] : ''}
+                                    onChange={
+                                        (e) => guardarFechaInicioSeleccionada(new Date(e.target.value))
+                                    }
+                                />
                             </div>
                         </div>
+
                         <div className="col-6 mb-3">
                             <label className="form-label mt-1 text-start w-100">Fecha fin</label>
                             <div className="input-group">
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-calendar4-range"></i>
                                 </span>
-                                <input type="date" name="fecha_fin" className="form-control" />
+                                <input type="date" name="fechaFin" className="form-control"
+                                    value={selectedFechaFin ? selectedFechaFin.toISOString().split('T')[0] : ''}
+                                    onChange={
+                                        (e) => guardarFechaFinSeleccionada(new Date(e.target.value))
+                                    }
+                                />
                             </div>
                         </div>
+
                     </div>
 
-                    <div className='row'>  
+                    <div className='row'>
+
                         <div className="col-6 mb-3">
                             <label className="form-label mt-1 text-start w-100">Hora inicio</label>
                             <div className="input-group">
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-clock"></i>
                                 </span>
-                                <input type="time" name="horario_recogida" className="form-control" />
+                                <input type="time" name="horarioRecogida" className="form-control"
+                                    value={selectedHorarioRecogida}
+                                    onChange={
+                                        (e) => guardarHorarioRecogidaSeleccionada(e.target.value)
+                                    }
+                                />
                             </div>
                         </div>
+
                         <div className="col-6 mb-3">
                             <label className="form-label mt-1 text-start w-100">Hora fin</label>
                             <div className="input-group">
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-clock"></i>
                                 </span>
-                                <input type="time" name="horario_devolucion" className="form-control" />
+                                <input type="time" name="horarioDevolucion" className="form-control"
+                                    value={selectedHorarioDevolucion}
+                                    onChange={
+                                        (e) => guardarHorarioDevolucionSeleccionada(e.target.value)
+                                    }
+                                />
                             </div>
                         </div>
+
                     </div>
 
                     <div className="card-footer mb-4">
-                        <Button 
+                        <Button
                             style={{
                                 color: "black",
                                 backgroundColor: "beige",
@@ -140,7 +187,7 @@ const Home = () => {
                                 width: '30%',
                             }}
                             texto='Buscar'
-                            onClick={redirigirAvailability} 
+                            onClick={redirigirAvailability}
                         >
                         </Button>
                     </div>
