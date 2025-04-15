@@ -5,6 +5,7 @@ import { GroupService } from '../../servicios/GroupService';
 import { SucursalService } from '../../servicios/SucursalService';
 import { Car } from '../../types/types';
 import { CarsService } from '../../servicios/CarsService';
+import Swal from 'sweetalert2';
 
 const FormCars = () => {
   const { id } = useParams(); // siempre devuelve un string, hay que convertir a number porque id espera un number
@@ -57,7 +58,7 @@ const FormCars = () => {
             num_maletas: car.num_maletas,
             posee_aire_acondicionado: car.posee_aire_acondicionado,
             imagen: car.imagen ?? null,
-            GrupoId: car.GrupoId,
+            GrupoId: car.grupoId,
             SucursalId: car.SucursalId,
           });
           setErrorMessage('');
@@ -114,7 +115,7 @@ const FormCars = () => {
         num_plazas: formData.num_plazas,
         num_maletas: formData.num_maletas,
         posee_aire_acondicionado: formData.posee_aire_acondicionado,
-        GrupoId: formData.GrupoId,
+        grupoId: formData.GrupoId,
         SucursalId: formData.SucursalId,
       };
 
@@ -129,10 +130,12 @@ const FormCars = () => {
       }
 
       console.log('Operación exitosa:', result);
-      alert(`Coche ${isEditing ? 'editado' : 'creado'} correctamente`);
+      Swal.fire(`Coche ${isEditing ? 'editado' : 'creado'} correctamente`, ":)", "success");
+
       navigate('/cars');
     } catch (error: any) {
       console.error('Error en la operación:', error);
+      Swal.fire(`Error al ${isEditing ? 'actualizar' : 'crear'} el coche`, ":)", "success");
       setErrorMessage(error.message || 'Error al procesar el coche');
     } finally {
       setIsLoading(false);
@@ -403,24 +406,24 @@ const FormCars = () => {
           </div>
 
           <div className="col-12">
-              <input
-                type="file"
-                name="imagen"
-                id="imagen"
-                className="form-control"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setFormData({ ...formData, imagen: file });
-                  }
-                }}
-              />
+            <input
+              type="file"
+              name="imagen"
+              id="imagen"
+              className="form-control"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  setFormData({ ...formData, imagen: file });
+                }
+              }}
+            />
           </div>
 
 
           <hr />
-                
+
           <div className="d-flex justify-content-between">
             <Button
               type="button"

@@ -58,7 +58,7 @@ export const CarsService = {
                 'id','marca', 'modelo', 'descripcion', 'patente',
                 'tipo_coche', 'tipo_cambio', 'num_puertas',
                 'num_plazas', 'num_maletas', 'posee_aire_acondicionado',
-                'GrupoId', 'SucursalId', 'imagen'
+                'grupoId', 'SucursalId', 'imagen'
             ];
             carProperties.forEach(prop => {
                 if (carData[prop] !== undefined) {
@@ -99,7 +99,7 @@ export const CarsService = {
                 'marca', 'modelo', 'descripcion', 'patente',
                 'tipo_coche', 'tipo_cambio', 'num_puertas',
                 'num_plazas', 'num_maletas', 'posee_aire_acondicionado',
-                'GrupoId', 'SucursalId'
+                'grupoId', 'SucursalId'
             ];
             carProperties.forEach(prop => {
                 if (carData[prop] !== undefined) { // si ninguna propiedad de carData es undefined entonces haz un append

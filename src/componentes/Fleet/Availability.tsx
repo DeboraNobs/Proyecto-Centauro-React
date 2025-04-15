@@ -7,10 +7,11 @@ import Button from '../Elements/Button';
 const Availability = () => {
   const [searchParams] = useSearchParams();
   const fechaInicio = searchParams.get('fechainicio') ? new Date(searchParams.get('fechainicio')!) : new Date();
-  const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date();
-  const horarioRecogida = searchParams.get('horarioRecogida') || '';
-  const horarioDevolucion = searchParams.get('horarioDevolucion') || '';
-  const sucursalId = Number(searchParams.get('sucursalId'));
+  const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+  const horarioRecogida = searchParams.get('horarioRecogida') || '10:00';
+  const horarioDevolucion = searchParams.get('horarioDevolucion') || '12:00';
+  const sucursalId = Number(searchParams.get('sucursalId') || '3');
+  const sucursalDevolucion = Number(searchParams.get('sucursalDevolucion') || '3');
 
   const [coches, setCoches] = useState<Car[]>([]);
   const navigate = useNavigate();
@@ -40,12 +41,13 @@ const Availability = () => {
                             key={coche.id}
                         >
                         <CarDetails
-                            coche={coche}
-                            selectedSucursalId={sucursalId}
-                            fechainicio={new Date(fechaInicio)}
-                            fechaFin={new Date(fechaFin)}
-                            selectedHorarioRecogida={horarioRecogida}
-                            selectedHorarioDevolucion={horarioDevolucion}
+                                coche={coche}
+                                selectedSucursalId={sucursalId}
+                                sucursalDevolucion={sucursalDevolucion}  
+                                fechainicio={new Date(fechaInicio)}
+                                fechaFin={new Date(fechaFin)}
+                                selectedHorarioRecogida={horarioRecogida}
+                                selectedHorarioDevolucion={horarioDevolucion} 
                         />
                         </div>
                     ))

@@ -106,6 +106,7 @@ export const UsersService = {
             const data = await response.json();
             if (data.token) {
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('id', data.usuario.id);
                 localStorage.setItem('username', data.usuario.nombre);
                 localStorage.setItem('loggedIn', JSON.stringify(true));
                 return data.usuario;

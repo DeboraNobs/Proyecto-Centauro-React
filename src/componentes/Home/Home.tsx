@@ -9,6 +9,7 @@ const Home = () => {
     const [sucursales, setSucursales] = useState<{ id: string | number; nombre: string }[]>([]);
 
     const [selectedSucursalId, setSucursalId] = useState<number>(0);
+    const [selectedSucursalDevolucionId, setSucursalDevolucionId] = useState<number>(0);
     const [selectedFechaInicio, setFechaInicio] = useState<Date>();
     const [selectedFechaFin, setFechaFin] = useState<Date>();
     const [selectedHorarioRecogida, setHorarioRecogida] = useState('');
@@ -33,6 +34,9 @@ const Home = () => {
     const guardarSucursalSeleccionada = (sucursal: number) => {
         setSucursalId(sucursal);
     }
+    const guardarSucursalDevolucionSeleccionada = (sucursalDevolucion: number) => {
+        setSucursalDevolucionId(sucursalDevolucion);
+    }
     const guardarFechaInicioSeleccionada = (fechainicio: Date) => {
         setFechaInicio(fechainicio);
     }
@@ -54,7 +58,7 @@ const Home = () => {
         const fechaFinFormateada = selectedFechaFin
             ? selectedFechaFin.toISOString() // split('T')[0]
             : '';
-        navigate(`/availability?sucursalId=${selectedSucursalId}&fechainicio=${fechaInicioFormateada}&fechaFin=${fechaFinFormateada}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`);
+        navigate(`/availability?sucursalId=${selectedSucursalId}&sucursalDevolucion=${selectedSucursalDevolucionId}&fechainicio=${fechaInicioFormateada}&fechaFin=${fechaFinFormateada}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`);
     }
 
     return (
@@ -100,6 +104,10 @@ const Home = () => {
                             name="lugarDevolucion"
                             className="form-select"
                             required
+                            value={selectedSucursalDevolucionId}
+                            onChange={
+                                (e) => guardarSucursalDevolucionSeleccionada(Number(e.target.value))
+                            }
                         >
                             <option value="">Seleccione un lugar de devolución</option>
                             {sucursales.map((sucursal) => (

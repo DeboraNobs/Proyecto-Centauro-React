@@ -73,7 +73,7 @@ export const RentalService = {
     },
 
 
-    async createUser(rentalData: Partial<Rental>): Promise<Rental> {
+    async createRental(rentalData: Partial<Rental>): Promise<Rental> {
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',

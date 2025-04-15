@@ -3,6 +3,8 @@ import { Car } from '../../types/types'
 import { Link, useNavigate } from 'react-router-dom';
 import { CarsService } from '../../servicios/CarsService';
 import { FaSearch } from 'react-icons/fa';
+import Swal from 'sweetalert2';
+import { confirmarEliminacion } from '../../utils/confirmDelete';
 
 const Cars = () => {
     const [cars, setCars] = useState<Car[]>([]);
@@ -32,11 +34,15 @@ const Cars = () => {
 
     const borrarCoche = async (id: number) => {
         try {
+            const confirmado = await confirmarEliminacion("¿Está seguro de que desea eliminar este coche?");
+            if (!confirmado) return;
+
             await CarsService.deleteCar(id);
             setMensajeExito("Coche eliminado");
             cargarCoches();
         } catch (error) {
             setMensajeError("Error al eliminar coche");
+            Swal.fire("Error al eliminar coche", "Inténtelo nuevamente más tarde", "error");
         } finally {
             setIsLoading(false);
         }
@@ -79,7 +85,7 @@ const Cars = () => {
                     Crear Coche
                 </Link>
             </div>
-            
+
             <div className="input-group mb-3">
                 <span className="input-group-text"><FaSearch /></span>
                 <input type="text" className='form-control' placeholder='Introduzca su búsqueda'

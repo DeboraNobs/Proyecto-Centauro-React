@@ -13,7 +13,7 @@ export type Car = {
     num_maletas: number;
     posee_aire_acondicionado: boolean;
     imagen?: File | string;
-    GrupoId: number;
+    grupoId: number;
     grupo?: Group;
     SucursalId: number;
     sucursal?: Sucursal;
@@ -42,14 +42,15 @@ export type Sucursal = {
 
 export type Rental = {
     id: number;
-    fechainicio: Date; // fechainicio esta en minuscula la i de inicio porque sino debo hacer una migracion
+    fechainicio: Date; // fechainicio esta en minuscula la i de inicio porque sino debo hacer una migracion en backend
     fechaFin: Date;
-    lugarRecogida: string;
-    lugarDevolucion: string;
+    lugarRecogida: string; 
+    lugarDevolucion: string; 
     horarioRecogida: Date;
     horarioDevolucion: Date;
 
-    user_id?: number;
+    usersId?: number;
+    grupoId?: number;
 }
 
 export type Borrar = {
@@ -67,10 +68,11 @@ export type Login = {
 export type CarDetailsProps = {
     coche: Car;
     selectedSucursalId: number;
+    sucursalDevolucion: number;
     fechainicio: Date;
     fechaFin: Date;
     selectedHorarioRecogida: string;
-    selectedHorarioDevolucion: string
+    selectedHorarioDevolucion: string;
 }
 
 export type ButtonProps = {

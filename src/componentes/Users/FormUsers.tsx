@@ -6,6 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { UsersService } from '../../servicios/UsersService';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
 const FormUsers = () => {
   const { id } = useParams();
@@ -25,11 +26,11 @@ const FormUsers = () => {
           await UsersService.createUser(data);
           navigate('/login');
         }
-
-        alert(`Usuario ${isEditing ? 'actualizado' : 'creado'} correctamente`);
+        Swal.fire(`Usuario ${isEditing ? 'actualizado' : 'creado'} correctamente`, ":)", "success");
        
       } catch (error: any) {
           console.error('Error en la operación:', error);
+          Swal.fire(`Error al ${isEditing ? 'actualizar' : 'crear'} el usuario`, ":)", "success");
           setErrorMessage(error.message || `Error al ${isEditing ? 'actualizar' : 'crear'} el usuario`);
       } finally {
           setIsLoading(false);

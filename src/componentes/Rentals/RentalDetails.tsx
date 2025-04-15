@@ -10,13 +10,14 @@ const RentalDetails = () => {
   const searchParams= new URLSearchParams(location.search);
 
   const id = Number(searchParams.get('id'));
-  const sucursalId = Number(searchParams.get('sucursalId'));
-   
-  const fechaInicio = searchParams.get('fechainicio') ? new Date(searchParams.get('fechainicio')!) : new Date();
-  const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date();
+  const sucursalId = Number(searchParams.get('sucursalId') || '3');
+  const sucursalDevolucion = Number(searchParams.get('sucursalDevolucion') || '3');
 
-  const horarioRecogida = searchParams.get('horarioRecogida') || '';
-  const horarioDevolucion = searchParams.get('horarioDevolucion') || '';
+  const fechaInicio = searchParams.get('fechainicio') ? new Date(searchParams.get('fechainicio')!) : new Date();
+  const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+
+  const horarioRecogida = searchParams.get('horarioRecogida') || '10:00';
+  const horarioDevolucion = searchParams.get('horarioDevolucion') || '12:00';
 
   useEffect(() => {
     if (id) {
@@ -37,23 +38,56 @@ const RentalDetails = () => {
   }, [id]);
 
   if (!auto) {
-    return <p>No se encontró el coche</p>;
+    return <p>No se ha encontrado el coche</p>;
   }
 
   return (
-    <div className='container'>
-      <h2 className='mb-4'>Detalles del coche que desea alquilar:</h2>
-        <CarDetails
-          coche={auto}
-          selectedSucursalId={sucursalId}
-          fechainicio={fechaInicio}
-          fechaFin={fechaFin}
-          selectedHorarioRecogida={horarioRecogida}
-          selectedHorarioDevolucion={horarioDevolucion}
-        />
+    <div className='container d-flex justify-content-center'>
+      <div style={{ maxWidth: '1200px', width: '100%' }}> 
+        <h2 className='mb-4 text-center'>Detalles del coche que desea alquilar:</h2>
+        
+        <div className='row justify-content-between'>
+          <div className='col-md-7 col-lg-8 mb-4'>
+            <div className='card h-100'> 
+              <div className='card-body'>
+                <h5>Sucursal recogida:</h5>
+                <p> Nº {sucursalId}</p>
+                
+                <h5>Sucursal devolución:</h5>
+                <p> Nº {sucursalDevolucion}</p>
+                
+                <h5>Fecha inicio:</h5>
+                <p>{fechaInicio.toLocaleDateString()}. </p>
+                
+                <h5>Fecha fin:</h5>
+                <p>{fechaFin.toLocaleDateString() }. </p>
+  
+                <h5>Horario recogida:</h5>
+                <p>{horarioRecogida} horas.</p>
+  
+                <h5>Horario devolución:</h5>
+                <p>{horarioDevolucion} horas.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className='col-md-5 col-lg-4'>
+              <CarDetails
+                coche={auto}
+                selectedSucursalId={sucursalId}
+                sucursalDevolucion={sucursalDevolucion} 
+                fechainicio={fechaInicio}
+                fechaFin={fechaFin}
+                selectedHorarioRecogida={horarioRecogida}
+                selectedHorarioDevolucion={horarioDevolucion} 
+              />
+          </div>
+
+        </div>
+        
+      </div>
     </div>
   );
 }
 
 export default RentalDetails;
-

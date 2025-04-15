@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Rental } from '../../types/types';
 import { RentalService } from '../../servicios/RentalService';
 import { FaSearch } from 'react-icons/fa';
+import { confirmarEliminacion } from '../../utils/confirmDelete';
 
 const Rentals = () => {
+
   const [rentals, setRentals] = useState<Rental[]>([]);
   const [mensajeError, setMensajeError] = useState<string>('');
   const [mensajeExito, setMensajeExito] = useState<string>('');
@@ -27,19 +29,24 @@ const Rentals = () => {
       setIsLoading(false);
     }
   }
-  
+
 
   const borrarRental = async (id: number) => {
     try {
+      const confirmado = await confirmarEliminacion("¿Está seguro de que desea eliminar esta reserva?");
+      if (!confirmado) return;
+
       await RentalService.deleteRental(id);
       setMensajeExito("Alquiler eliminado");
       cargarRentals();
     } catch (error) {
       setMensajeError("Error al eliminar el alquiler");
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+
 
   const searcher = (e : React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -81,6 +88,8 @@ const Rentals = () => {
             <th>Lugar devolucion</th>
             <th>Horario recogida</th>
             <th>Horario devolucion</th>
+            <th>Grupo</th>
+            <th>Usuario</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -93,6 +102,8 @@ const Rentals = () => {
                 <td>{rental.lugarDevolucion}</td>
                 <td>{String(rental.horarioRecogida)}</td>
                 <td>{String(rental.horarioDevolucion)}</td>
+                <td>{rental.grupoId}</td>
+                <td>{rental.usersId}</td>
 
                 <td>
 

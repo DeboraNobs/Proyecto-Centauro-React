@@ -3,6 +3,8 @@ import { User } from '../../types/types';
 import { Link, useNavigate } from 'react-router-dom';
 import { UsersService } from '../../servicios/UsersService';
 import { FaSearch } from 'react-icons/fa';
+import Swal from 'sweetalert2';
+import { confirmarEliminacion } from '../../utils/confirmDelete';
 
 const Users = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -31,11 +33,15 @@ const Users = () => {
 
     const borrarUsuario = async (id: string) => {
         try {
+            const confirmado = await confirmarEliminacion("¿Está seguro de que desea eliminar este usuario?");
+            if (!confirmado) return;
+
             await UsersService.deteleUser(id);
             setMensajeExito("Usuario eliminado");
             cargarUsuarios();
         } catch (error) {
             setMensajeError("Error al eliminar el usuario.")
+            Swal.fire("Error al eliminar el usuario", "Inténtelo nuevamente más tarde", "error");
         } finally {
             setIsLoading(false);
         }

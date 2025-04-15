@@ -1,52 +1,74 @@
 import React, { useState } from "react";
 import { CarDetailsProps } from "../../types/types";
 import Button from "../Elements/Button";
-import { FaCar, FaExchangeAlt, FaSnowflake, FaUserFriends } from "react-icons/fa";
+import { FaCar, FaExchangeAlt, FaRegObjectGroup, FaSnowflake, FaUserFriends } from "react-icons/fa";
 import { GiCarDoor } from "react-icons/gi";
 import { MdOutlineLuggage } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const CarDetails: React.FC<CarDetailsProps> = ({
     coche,
     selectedSucursalId,
+    sucursalDevolucion,
     fechainicio,
     fechaFin,
     selectedHorarioRecogida,
     selectedHorarioDevolucion
 }) => {
 
-    /* para enviar el id del coche a rentalDetails */
+    const sucursalIdValue = selectedSucursalId ?? '3';
+    const sucursalDevolucionValue = sucursalDevolucion ?? '3';
+    const fechainicioValue = fechainicio ?? new Date();
+    const fechaFinValue = fechaFin ?? new Date(Date.now() + 2 * 24 * 60 * 60 * 1000); // dos días después
+    const horarioRecogidaValue = selectedHorarioRecogida ?? '10:00';
+    const horarioDevolucionValue = selectedHorarioDevolucion ?? '12:00';
+
+
+    const hacerReserva = async () => {
+        const idUsuario = localStorage.getItem('id');
+        
+        const reserva = {
+            LugarRecogida: sucursalIdValue.toString(),
+            LugarDevolucion: sucursalDevolucionValue.toString(),
+            Fechainicio: fechainicioValue.toISOString(),
+            FechaFin: fechaFinValue.toISOString(),
+            HorarioRecogida: horarioRecogidaValue,
+            HorarioDevolucion: horarioDevolucionValue,
+    
+            usersId: idUsuario ?? null, // si no esta logueado que inserte null
+            grupoId: coche.grupoId ?? null,  
+        };
+
+        try {
+            const response = await fetch('http://localhost:5038/api/alquiler', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reserva),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al hacer la reserva');
+            }
+            Swal.fire("Reserva creada!", "Muchas gracias por elegirnos!", "success");
+
+        } catch (error) {
+            console.error('Error al reservar:', error);
+            Swal.fire("Error al crear la reserva", "Inténtelo nuevamente más tarde", "error");
+        }
+    };
+
     const navigate = useNavigate();
     const [, setId] = useState<number>(0);
-    
-    /*
-    const [, setMarca] = useState('');
-    const [, setModelo] = useState('');
-    const [, setDescripcion] = useState('');
-    const [, setAire] = useState(false);
-    const [, setTipoCoche] = useState('');
-    const [, setTipoCambio] = useState('');
-    const [, setNumPuertas] = useState<number>(0);
-    const [, setNumPlazas] = useState<number>(0);
-    */
 
     const guardarCocheSeleccionado = () => {
         setId(coche.id);
-        /*
-        setMarca(coche.marca);
-        setModelo(coche.modelo);
-        setDescripcion(coche.descripcion);
-        setAire(coche.posee_aire_acondicionado);
-        setTipoCoche(coche.tipo_coche);
-        setTipoCambio(coche.tipo_cambio);
-        setNumPuertas(coche.num_puertas);
-        setNumPlazas(coche.num_plazas);
-        */
-
-        navigate(`/rentalsDetails?id=${coche.id}&sucursalId=${selectedSucursalId}&fechainicio=${fechainicio.toISOString()}&fechaFin=${fechaFin.toISOString()}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`
+        
+        navigate(`/rentalsDetails?id=${coche.id}&grupoId=${coche.grupoId}&sucursalId=${sucursalIdValue}&sucursalDevolucion=${sucursalDevolucionValue}&fechainicio=${fechainicioValue.toISOString()}&fechaFin=${fechaFinValue.toISOString()}&horarioRecogida=${horarioRecogidaValue}&horarioDevolucion=${horarioDevolucionValue}`
         );
 
-        //navigate(`/rentalsDetails?id=${coche.id}&marca=${coche.marca}&modelo=${coche.modelo}&descripcion=${coche.descripcion}&aire=${coche.posee_aire_acondicionado}&tipo_coche=${coche.tipo_coche}&tipo_cambio=${coche.tipo_cambio}&num_puertas=${coche.num_puertas}&num_plazas=${coche.num_plazas}`);
     }
 
     const imageSrc = coche.imagen ? `data:image/jpeg;base64,${coche.imagen}` : null;
@@ -115,13 +137,12 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                     </div>
                 </div>
 
-                { /*
+                
                     <p className="card-text">
-                        <FaLayerGroup />
-                        {coche.grupo ? coche.grupo.nombre : `ID: ${coche.GrupoId} (Sin grupo)`}
+                        <FaRegObjectGroup />
+                        Grupo {coche.grupoId}
                     </p>
-                  */
-                }
+               
 
             </div>
             <div className="card-footer">
@@ -132,12 +153,25 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                         backgroundColor: "beige",
                         border: "solid BurlyWood 2px"
                     }}
-                    texto="Reservar"
+                    texto="Ver detalles"
                     onClick={
                         () => guardarCocheSeleccionado()
                     }
-
                 />
+
+                <Button
+                    style={{
+                        color: "black",
+                        padding: "7px",
+                        backgroundColor: "beige",
+                        border: "solid BurlyWood 2px"
+                    }}
+                    texto="Reservar"
+                    onClick={
+                        () => hacerReserva()
+                    }
+                />
+
             </div>
         </div>
     );

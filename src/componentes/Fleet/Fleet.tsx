@@ -14,13 +14,14 @@ const Fleet = () => {
 
     const [searchParams] = useSearchParams();
       const fechaInicio = searchParams.get('fechainicio') ? new Date(searchParams.get('fechainicio')!) : new Date();
-      const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date();
-      const horarioRecogida = searchParams.get('horarioRecogida') || '';
-      const horarioDevolucion = searchParams.get('horarioDevolucion') || '';
-      const sucursalId = Number(searchParams.get('sucursalId'));
-      
+      const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+      const horarioRecogida = searchParams.get('horarioRecogida') || '10:00';
+      const horarioDevolucion = searchParams.get('horarioDevolucion') || '12:00';
+      const sucursalId = Number(searchParams.get('sucursalId') || '3');
+      const sucursalDevolucion = Number(searchParams.get('sucursalDevolucion') || '3');
+
     useEffect(() => {
-        fetch('http://localhost:5038/api/coche') // si pruebo con el endpoint que trae grupos (/con-grupo) me muestra ls grupos pero los creados por form no
+        fetch('http://localhost:5038/api/coche/con-grupo') // si pruebo con el endpoint que trae grupos (/con-grupo) me muestra ls grupos pero los creados por form no
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -54,12 +55,13 @@ const Fleet = () => {
                             key={coche.id}
                         >
                             <CarDetails 
-                                coche={coche} 
+                                coche={coche}
                                 selectedSucursalId={sucursalId}
                                 fechainicio={fechaInicio}
                                 fechaFin={fechaFin}
                                 selectedHorarioRecogida={horarioRecogida}
                                 selectedHorarioDevolucion={horarioDevolucion}
+                                sucursalDevolucion={sucursalDevolucion}                            
                             />
                         </div>
                     ))
