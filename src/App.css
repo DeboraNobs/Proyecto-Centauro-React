@@ -1,5 +1,5 @@
 body {
-  background-color:rgb(228, 228, 209);
+  background-color: rgb(228, 228, 209);
 }
 
 .App {
@@ -16,13 +16,14 @@ body {
   text-align: justify;
 }
 
-.card-text { 
+.card-text {
   text-align: justify;
 }
 
 .img-hover {
   transition: transform 0.3s ease;
 }
+
 .img-hover:hover {
   transform: translateX(+6%);
 }
@@ -64,7 +65,7 @@ body {
 }
 
 .nav-item:hover {
-  color: #8B4513; 
+  color: #8B4513;
 }
 
 .nav-item::after {
@@ -85,6 +86,38 @@ body {
 .nav-logo {
   width: 190px;
   height: 40px;
+}
+
+.wheel-logo {
+  width: 110px;
+  height: 40px;
+  margin-left: -40px;
+}
+
+/* span horaRecogida, si no se reserva con 1 hora de antelación, muestra X */
+div {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+input[type="number"] {
+  width: 100px;
+}
+
+input + span {
+  padding-right: 30px;
+}
+
+input:invalid + span::after {
+  position: absolute;
+  content: "✖"; 
+  padding-left: 5px;
+}
+
+input:valid + span::after {
+  position: absolute;
+  content: "✓";
+  padding-left: 5px;
 }
 
 /* LOGIN FORM */
@@ -221,6 +254,7 @@ img {
   margin-top: -250px;
   margin-left: -400px;
 }
+
 .message-box {
   height: 200px;
   width: 380px;
@@ -229,18 +263,21 @@ img {
   left: 50%;
   margin-top: -100px;
   margin-left: 50px;
-  color:  BurlyWood;
+  color: BurlyWood;
   font-family: Roboto;
   font-weight: 300;
 }
+
 .message-box h1 {
   font-size: 60px;
   line-height: 46px;
   margin-bottom: 40px;
 }
+
 .buttons-con .action-link-wrap {
   margin-top: 40px;
 }
+
 .buttons-con .action-link-wrap a {
   background: rgb(245, 245, 234);
   padding: 8px 25px;
@@ -248,46 +285,58 @@ img {
   color: BurlyWood;
   font-weight: bold;
   font-size: 14px;
-  border:  BurlyWood solid 2px;
+  border: BurlyWood solid 2px;
   transition: all 0.3s linear;
   cursor: pointer;
   text-decoration: none;
   margin-right: 10px;
 }
+
 .buttons-con .action-link-wrap a:hover {
   background-color: #db905b;
   color: #fff;
 }
 
-#Polygon-1 , #Polygon-2 , #Polygon-3 , #Polygon-4 , #Polygon-4, #Polygon-5 {
+#Polygon-1,
+#Polygon-2,
+#Polygon-3,
+#Polygon-4,
+#Polygon-4,
+#Polygon-5 {
   animation: float 1s infinite ease-in-out alternate;
 }
+
 #Polygon-2 {
-  animation-delay: .2s; 
+  animation-delay: .2s;
 }
+
 #Polygon-3 {
-  animation-delay: .4s; 
+  animation-delay: .4s;
 }
+
 #Polygon-4 {
-  animation-delay: .6s; 
+  animation-delay: .6s;
 }
+
 #Polygon-5 {
-  animation-delay: .8s; 
+  animation-delay: .8s;
 }
 
 @keyframes float {
-	100% {
+  100% {
     transform: translateY(20px);
   }
 }
+
 @media (max-width: 450px) {
   svg {
     position: absolute;
     top: 50%;
     left: 50%;
     margin-top: -250px;
-    margin-left: -190px; 
+    margin-left: -190px;
   }
+
   .message-box {
     top: 50%;
     left: 50%;

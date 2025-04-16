@@ -3,6 +3,7 @@ import homeImg from '../../assets/home.webp';
 import { SucursalService } from '../../servicios/SucursalService';
 import Button from '../Elements/Button';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Home = () => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -10,12 +11,59 @@ const Home = () => {
 
     const [selectedSucursalId, setSucursalId] = useState<number>(0);
     const [selectedSucursalDevolucionId, setSucursalDevolucionId] = useState<number>(0);
+
     const [selectedFechaInicio, setFechaInicio] = useState<Date>();
     const [selectedFechaFin, setFechaFin] = useState<Date>();
+
+    const [minHoraRecogida, setMinHoraRecogida] = useState('');
     const [selectedHorarioRecogida, setHorarioRecogida] = useState('');
     const [selectedHorarioDevolucion, setHorarioDevolucion] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const ahora = new Date();
+        ahora.setHours(ahora.getHours() + 1);
+
+        const horaFormateada = ahora.toTimeString().split(':').slice(0, 2).join(':');
+        
+        setMinHoraRecogida(horaFormateada);
+    }, []);
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputFechaInicio = document.getElementById('fechainicio') as HTMLInputElement;
+        const inputFechaFin = document.getElementById('fechafin') as HTMLInputElement;
+
+        const hoy = new Date().toISOString().split('T')[0];
+        inputFechaInicio.min = hoy;
+      
+        inputFechaInicio.addEventListener('change', () => {
+          inputFechaFin.min = inputFechaInicio.value; // cuando se selecciona una fechainicio, esa fecha pasa a ser el mínimo de fechafin
+          inputFechaFin.value = ''; // limpia la fechafin seleccionada cuando cambia una fechainicio (para evitar que la fechafin sea menor a fechainicio)
+        });
+    });
+
+    /*
+    const inputHorarioRecogida = document.getElementById('horariorecogida') as HTMLInputElement;
+    // const inputHorarioDevolucion = document.getElementById('horariodevolucion') as HTMLInputElement;
+    
+    const ahora = new Date();
+    ahora.setHours(ahora.getHours() + 1);
+    const horaMinima = ahora.toTimeString().split(':').slice(0, 2).join(':'); // formato HH:MM para input type="time"
+    inputHorarioRecogida.min = horaMinima;
+
+    // si la fechainicio es la misma que la fechafin entonces debe hacer una reserva de mínimo 2 hs, y se debe controlar que la horarecogida sea menor que la horadevolucion
+    
+    const minHorarioRecogida = new Date();
+    minHorarioRecogida.setHours(minHorarioRecogida.getHours() + 1);
+    inputHorarioRecogida.min = minHorarioRecogida.valueOf;
+
+   
+    // if (inputFechaInicio.value === inputFechaFin.value) {
+    // }
+
+    */
 
     useEffect(() => {
         const fetchSucursales = async () => {
@@ -58,6 +106,14 @@ const Home = () => {
         const fechaFinFormateada = selectedFechaFin
             ? selectedFechaFin.toISOString() // split('T')[0]
             : '';
+        
+        const inputHorarioRecogida = document.getElementById('horariorecogida') as HTMLInputElement;
+
+        if (!inputHorarioRecogida.validity.valid) {
+            Swal.fire("La hora de recogida no es válida.", "Debe ser al menos con una hora de anticipación", "error")
+            return;
+        }
+
         navigate(`/availability?sucursalId=${selectedSucursalId}&sucursalDevolucion=${selectedSucursalDevolucionId}&fechainicio=${fechaInicioFormateada}&fechaFin=${fechaFinFormateada}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`);
     }
 
@@ -72,7 +128,7 @@ const Home = () => {
                 <div className="col-md-7 d-flex flex-column justify-content-center">
                     <h2 className="text-center mb-4">Alquiler de coches</h2>
 
-                    <label className="text-start mb-1">Sucursal recogida</label> { /* En principio queda como sucursal en lugar de dividir en LugarRecogida y LugarDevolución */}
+                    <label className="text-start mb-1">Sucursal recogida</label> 
                     <div className="input-group mb-3">
                         <span className="input-group-text bg-outline-secondary text-black">
                             <i className="bi bi-arrow-down-right"></i>
@@ -126,7 +182,7 @@ const Home = () => {
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-calendar4-range"></i>
                                 </span>
-                                <input type="date" name="fechainicio" className="form-control"
+                                <input type="date" id="fechainicio" name="fechainicio" className="form-control"
                                     value={selectedFechaInicio ? selectedFechaInicio.toISOString().split('T')[0] : ''}
                                     onChange={
                                         (e) => guardarFechaInicioSeleccionada(new Date(e.target.value))
@@ -141,7 +197,7 @@ const Home = () => {
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-calendar4-range"></i>
                                 </span>
-                                <input type="date" name="fechaFin" className="form-control"
+                                <input type="date" id='fechafin' name="fechaFin" className="form-control"
                                     value={selectedFechaFin ? selectedFechaFin.toISOString().split('T')[0] : ''}
                                     onChange={
                                         (e) => guardarFechaFinSeleccionada(new Date(e.target.value))
@@ -160,12 +216,15 @@ const Home = () => {
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-clock"></i>
                                 </span>
-                                <input type="time" name="horarioRecogida" className="form-control"
+                                <input type="time" id='horariorecogida' name="horarioRecogida" className="form-control"
                                     value={selectedHorarioRecogida}
+                                    min={minHoraRecogida}
                                     onChange={
                                         (e) => guardarHorarioRecogidaSeleccionada(e.target.value)
                                     }
                                 />
+                                <span className="validity"></span>
+                                <span className='small'>Reserva con 1 hora de antelación </span>
                             </div>
                         </div>
 
@@ -175,7 +234,7 @@ const Home = () => {
                                 <span className="input-group-text bg-outline-secondary text-black">
                                     <i className="bi bi-clock"></i>
                                 </span>
-                                <input type="time" name="horarioDevolucion" className="form-control"
+                                <input type="time" id='horariodevolucion' name="horarioDevolucion" className="form-control"
                                     value={selectedHorarioDevolucion}
                                     onChange={
                                         (e) => guardarHorarioDevolucionSeleccionada(e.target.value)
@@ -212,3 +271,6 @@ const Home = () => {
 };
 
 export default Home;
+
+
+

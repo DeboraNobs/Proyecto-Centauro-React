@@ -93,11 +93,12 @@ const Rentals = () => {
             <th>Acciones</th>
           </tr>
         </thead>
+
         <tbody>
           {computadaRentals.length > 0 ? (
             computadaRentals.map((rental) => (
               <tr key={rental.id}>
-                <td>{String(rental.fechainicio)} - {String(rental.fechaFin)}</td>
+                <td>{String(rental.fechainicio).split('T00:00:00')} - {String(rental.fechaFin).split('T00:00:00')}</td>
                 <td>{rental.lugarRecogida}</td>
                 <td>{rental.lugarDevolucion}</td>
                 <td>{String(rental.horarioRecogida)}</td>
@@ -107,7 +108,9 @@ const Rentals = () => {
 
                 <td>
 
-                  { /*<button
+                  { 
+                  /*
+                  <button
                     type="button"
                     className="btn btn-outline-warning btn-sm"
                     onClick={() => editarRental((rental.id))}>
