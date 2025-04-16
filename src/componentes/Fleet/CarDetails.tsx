@@ -24,20 +24,19 @@ const CarDetails: React.FC<CarDetailsProps> = ({
     const horarioRecogidaValue = selectedHorarioRecogida ?? '10:00';
     const horarioDevolucionValue = selectedHorarioDevolucion ?? '12:00';
 
-
     const hacerReserva = async () => {
         const idUsuario = localStorage.getItem('id');
         
         const reserva = {
             LugarRecogida: sucursalIdValue.toString(),
             LugarDevolucion: sucursalDevolucionValue.toString(),
-            Fechainicio: fechainicioValue.toISOString(),
-            FechaFin: fechaFinValue.toISOString(),
+            Fechainicio: fechainicioValue.toISOString().split('T')[0], 
+            FechaFin: fechaFinValue.toISOString().split('T')[0],
             HorarioRecogida: horarioRecogidaValue,
             HorarioDevolucion: horarioDevolucionValue,
     
-            usersId: idUsuario ?? null, // si no esta logueado que inserte null
-            grupoId: coche.grupoId ?? null,  
+            usersId: idUsuario,
+            grupoId: coche.grupoId,  
         };
 
         try {
@@ -56,7 +55,8 @@ const CarDetails: React.FC<CarDetailsProps> = ({
 
         } catch (error) {
             console.error('Error al reservar:', error);
-            Swal.fire("Error al crear la reserva", "Inténtelo nuevamente más tarde", "error");
+            Swal.fire("Error al crear la reserva", "Loguéese para hacer una reserva", "error");
+            navigate('/login');
         }
     };
 

@@ -157,20 +157,21 @@ const FleetFilter: React.FC<FleetFilterProps> = ({ setSelectedPlazas, setSelecte
                         ))}
                     </ul>
 
+                    <Button
+                        type="button"
+                        onClick={() => cancelarTodosFiltros()}
+                        style={{
+                            color: "black",
+                            padding: "6.5px",
+                            backgroundColor: "beige",
+                            border: "solid BurlyWood 2px",
+                        }}
+                        texto='Cancelar'
+                    />
+
                 </div>
 
-                <Button
-                    type="button"
-                    onClick={() => cancelarTodosFiltros()}
-                    style={{
-                        color: "black",
-                        padding: "6.5px",
-                        backgroundColor: "beige",
-                        border: "solid BurlyWood 2px"
-                    }}
-                    texto='Cancelar'
-                />
-
+                
             </div>
         </div>
     );

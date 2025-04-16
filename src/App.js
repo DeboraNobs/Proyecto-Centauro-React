@@ -15,43 +15,43 @@ import LoginForm from './componentes/Login/LoginForm';
 import NotFound from './componentes/NotFound/NotFound';
 import Rentals from './componentes/Rentals/Rentals';
 import RentalDetails from './componentes/Rentals/RentalDetails';
+import ErrorBoundary from './componentes/ErrorBoundary/ErrorBoundary';
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
+      <ErrorBoundary>
+        <Navbar />
 
-      <Routes>
-     
-        <Route path="/" element={<Home/>}/>
-        <Route path="/availability" element={<Availability />} />
-        
-        <Route path="/fleet" element={
-          <Fleet>
-            <FleetFilter />
-            { // <CarDetails /> // 
-            }
-            <Route path="/car-details" element={<CarDetails />} />
-          </Fleet>
-        } />
-        
-        <Route path="/users" element={<Users />}></Route>
-        <Route path="/cars" element={<Cars />}></Route>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/availability" element={<Availability />} />
 
-        <Route path="/form-users" element={<FormUsers />} />
-        <Route path="/form-users/:id" element={<FormUsers />} />
+          <Route path="/fleet" element={
+            <Fleet>
+              <FleetFilter />
+              <Route path="/car-details" element={<CarDetails />} />
+            </Fleet>
+          } />
 
-        <Route path="/form-cars" element={<FormCars />}></Route>
-        <Route path="/form-cars/:id" element={<FormCars />}></Route>
+          <Route path="/users" element={<Users />}></Route>
+          <Route path="/cars" element={<Cars />}></Route>
 
-        <Route path="/login" element= {<LoginForm />}></Route>
+          <Route path="/form-users" element={<FormUsers />} />
+          <Route path="/form-users/:id" element={<FormUsers />} />
 
-        <Route path="/rentals" element= {<Rentals />}></Route>
-        <Route path="/rentalsDetails" element= {<RentalDetails />}></Route>
+          <Route path="/form-cars" element={<FormCars />}></Route>
+          <Route path="/form-cars/:id" element={<FormCars />}></Route>
 
-        <Route path="*" element= {<NotFound />}></Route>
+          <Route path="/login" element={<LoginForm />}></Route>
 
-      </Routes>
+          <Route path="/rentals" element={<Rentals />}></Route>
+          <Route path="/rentalsDetails" element={<RentalDetails />}></Route>
+
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+
+      </ErrorBoundary>
     </div>
   );
 }

@@ -21,6 +21,8 @@ const Home = () => {
 
     const navigate = useNavigate();
 
+    const inputHorarioRecogida = document.getElementById('horariorecogida') as HTMLInputElement;
+
     useEffect(() => {
         const ahora = new Date();
         ahora.setHours(ahora.getHours() + 1);
@@ -29,7 +31,6 @@ const Home = () => {
         
         setMinHoraRecogida(horaFormateada);
     }, []);
-
 
     document.addEventListener('DOMContentLoaded', () => {
         const inputFechaInicio = document.getElementById('fechainicio') as HTMLInputElement;
@@ -43,27 +44,7 @@ const Home = () => {
           inputFechaFin.value = ''; // limpia la fechafin seleccionada cuando cambia una fechainicio (para evitar que la fechafin sea menor a fechainicio)
         });
     });
-
-    /*
-    const inputHorarioRecogida = document.getElementById('horariorecogida') as HTMLInputElement;
-    // const inputHorarioDevolucion = document.getElementById('horariodevolucion') as HTMLInputElement;
     
-    const ahora = new Date();
-    ahora.setHours(ahora.getHours() + 1);
-    const horaMinima = ahora.toTimeString().split(':').slice(0, 2).join(':'); // formato HH:MM para input type="time"
-    inputHorarioRecogida.min = horaMinima;
-
-    // si la fechainicio es la misma que la fechafin entonces debe hacer una reserva de mínimo 2 hs, y se debe controlar que la horarecogida sea menor que la horadevolucion
-    
-    const minHorarioRecogida = new Date();
-    minHorarioRecogida.setHours(minHorarioRecogida.getHours() + 1);
-    inputHorarioRecogida.min = minHorarioRecogida.valueOf;
-
-   
-    // if (inputFechaInicio.value === inputFechaFin.value) {
-    // }
-
-    */
 
     useEffect(() => {
         const fetchSucursales = async () => {
@@ -99,19 +80,25 @@ const Home = () => {
     }
 
     const redirigirAvailability = () => {
-        const fechaInicioFormateada = selectedFechaInicio
-            ? selectedFechaInicio.toISOString() // .split('T')[0]
-            : '';
-
-        const fechaFinFormateada = selectedFechaFin
-            ? selectedFechaFin.toISOString() // split('T')[0]
-            : '';
+        const fechaInicioFormateada = selectedFechaInicio ? selectedFechaInicio.toISOString() : '';
+        const fechaFinFormateada = selectedFechaFin ? selectedFechaFin.toISOString() : '';
         
-        const inputHorarioRecogida = document.getElementById('horariorecogida') as HTMLInputElement;
-
         if (!inputHorarioRecogida.validity.valid) {
-            Swal.fire("La hora de recogida no es válida.", "Debe ser al menos con una hora de anticipación", "error")
+            Swal.fire("La hora de recogida no es válida.", "Debe ser al menos con una hora de anticipación", "error");
             return;
+        }
+
+        // si la fechainicio es la misma que la fechafin entonces se debe controlar que la horarecogida sea menor que la horadevolucion
+
+        if (selectedFechaInicio && selectedFechaFin && selectedFechaInicio.toDateString() === selectedFechaFin.toDateString()) {
+            if (selectedHorarioRecogida >= selectedHorarioDevolucion) {
+                Swal.fire(
+                    "Horario inválido",
+                    "Si la fecha de inicio y fin son la misma, la hora de recogida debe ser menor que la de devolución.",
+                    "error"
+                );
+                return;
+            }
         }
 
         navigate(`/availability?sucursalId=${selectedSucursalId}&sucursalDevolucion=${selectedSucursalDevolucionId}&fechainicio=${fechaInicioFormateada}&fechaFin=${fechaFinFormateada}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`);
