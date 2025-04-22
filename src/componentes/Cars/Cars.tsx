@@ -88,7 +88,7 @@ const Cars = () => {
 
             <div className="input-group mb-3">
                 <span className="input-group-text"><FaSearch /></span>
-                <input type="text" className='form-control' placeholder='Introduzca su búsqueda'
+                <input type="text" className='form-control' placeholder='Introduzca su búsqueda según marca o modelo'
                     value={search}
                     onChange={searcher}
                 />
@@ -102,7 +102,7 @@ const Cars = () => {
                     <tr>
                         <th>Marca</th>
                         <th>Modelo</th>
-                        <th>Descripcion</th>
+                        <th>Grupo Id - Nombre</th>
                         <th>Patente</th>
                         <th>Tipo</th>
                         <th>Plazas</th>
@@ -120,7 +120,7 @@ const Cars = () => {
                                 key={car.id}>
                                 <td>{car.marca} </td>
                                 <td>{car.modelo}</td>
-                                <td>{car.descripcion}</td>
+                                <td>{car.grupo?.id} - {car.grupo?.nombre}</td>
                                 <td>{car.patente}</td>
                                 <td>{car.tipo_coche}</td>
                                 <td>{car.num_plazas}</td>

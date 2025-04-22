@@ -26,19 +26,19 @@ const CarDetails: React.FC<CarDetailsProps> = ({
 
     const hacerReserva = async () => {
         const idUsuario = localStorage.getItem('id');
-        
+
         const reserva = {
             LugarRecogida: sucursalIdValue.toString(),
             LugarDevolucion: sucursalDevolucionValue.toString(),
-            Fechainicio: fechainicioValue.toISOString().split('T')[0], 
+            Fechainicio: fechainicioValue.toISOString().split('T')[0],
             FechaFin: fechaFinValue.toISOString().split('T')[0],
             HorarioRecogida: horarioRecogidaValue,
             HorarioDevolucion: horarioDevolucionValue,
-    
-            usersId: idUsuario,
-            grupoId: coche.grupoId,  
-        };
 
+            usersId: idUsuario,
+            grupoId: coche.grupoId,
+        };
+    
         try {
             const response = await fetch('http://localhost:5038/api/alquiler', {
                 method: 'POST',
@@ -48,16 +48,26 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                 body: JSON.stringify(reserva),
             });
 
-            if (!response.ok) {
-                throw new Error('Error al hacer la reserva');
+            if (response.ok) {
+                Swal.fire("Reserva creada!", "Muchas gracias por elegirnos!", "success");
+            } else if (response.status === 400) { // No hay coches disponibles para dicho grupo seleccionado
+                const data = await response.json();
+                Swal.fire("Error al crear la reserva", data.message || "No hay coches disponibles", "error");
+                navigate('/fleet');
+            } else if (response.status === 401) { // Usuario no logueado
+                const data = await response.json();
+                Swal.fire("Acceso no autorizado", data.message || "Debe iniciar sesión", "error");
+                navigate('/login');
+            } else {
+                const data = await response.json();
+                Swal.fire("Error desconocido", data.message || "Ha ocurrido un error inesperado", "error");
             }
-            Swal.fire("Reserva creada!", "Muchas gracias por elegirnos!", "success");
-
         } catch (error) {
             console.error('Error al reservar:', error);
-            Swal.fire("Error al crear la reserva", "Loguéese para hacer una reserva", "error");
-            navigate('/login');
+            Swal.fire("Error de red", "No se pudo conectar al servidor", "error");
         }
+
+
     };
 
     const navigate = useNavigate();
@@ -65,7 +75,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({
 
     const guardarCocheSeleccionado = () => {
         setId(coche.id);
-        
+
         navigate(`/rentalsDetails?id=${coche.id}&grupoId=${coche.grupoId}&sucursalId=${sucursalIdValue}&sucursalDevolucion=${sucursalDevolucionValue}&fechainicio=${fechainicioValue.toISOString()}&fechaFin=${fechaFinValue.toISOString()}&horarioRecogida=${horarioRecogidaValue}&horarioDevolucion=${horarioDevolucionValue}`
         );
 
@@ -141,17 +151,17 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                     <div className="col-md-6">
                         <p className="card-text">
                             <FaRegObjectGroup />
-                            Grupo {coche.grupo ? coche.grupo.nombre : 'null'} 
+                            Grupo {coche.grupo ? coche.grupo.nombre : 'null'}
                         </p>
                     </div>
 
                     <div className="col-md-6">
-                        <p className="card-text"> 
+                        <p className="card-text">
                             <FaMoneyBill />
                             Precio: {coche.grupo ? coche.grupo.precio : 'null'}
                         </p>
                     </div>
-               </div>
+                </div>
 
             </div>
             <div className="card-footer">

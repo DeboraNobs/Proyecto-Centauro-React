@@ -71,7 +71,7 @@ const Rentals = () => {
 
       <div className="input-group mb-3">
         <span className="input-group-text"><FaSearch /></span>
-        <input type="text" className='form-control' placeholder='Introduzca su búsqueda'
+        <input type="text" className='form-control' placeholder='Introduzca su búsqueda (lugar recogida o lugar devolución)'
           value={search}
           onChange={searcher}
         />

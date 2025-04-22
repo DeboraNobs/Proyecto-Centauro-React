@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:5038/api/coche';
 export const CarsService = {
     async getCars(): Promise<Car[]> {
         try {
-            const response = await fetch(API_URL);
+            const response = await fetch(`${API_URL}/con-grupo`);
             const data = await response.json();
             return data.$values;
         } catch (error) {
