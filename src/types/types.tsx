@@ -19,6 +19,13 @@ export type Car = {
     sucursal?: Sucursal;
 }
 
+export type Group = {
+    id: string | number;
+    nombre: string;
+    descripcion: string;
+    precio: number;
+}
+
 export type User = {
     id: number;
     nombre: string;
@@ -27,12 +34,6 @@ export type User = {
     movil: string;
     password: string;
     rol: string;
-}
-
-export type Group = {
-    id: string | number;
-    nombre: string;
-    descripcion: string;
 }
 
 export type Sucursal = {

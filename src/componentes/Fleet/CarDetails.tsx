@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CarDetailsProps } from "../../types/types";
 import Button from "../Elements/Button";
-import { FaCar, FaExchangeAlt, FaRegObjectGroup, FaSnowflake, FaUserFriends } from "react-icons/fa";
+import { FaCar, FaExchangeAlt, FaMoneyBill, FaRegObjectGroup, FaSnowflake, FaUserFriends } from "react-icons/fa";
 import { GiCarDoor } from "react-icons/gi";
 import { MdOutlineLuggage } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -137,12 +137,21 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                     </div>
                 </div>
 
-                
-                    <p className="card-text">
-                        <FaRegObjectGroup />
-                        Grupo {coche.grupoId}
-                    </p>
-               
+                <div className="row mb-3">
+                    <div className="col-md-6">
+                        <p className="card-text">
+                            <FaRegObjectGroup />
+                            Grupo {coche.grupo ? coche.grupo.nombre : 'null'} 
+                        </p>
+                    </div>
+
+                    <div className="col-md-6">
+                        <p className="card-text"> 
+                            <FaMoneyBill />
+                            Precio: {coche.grupo ? coche.grupo.precio : 'null'}
+                        </p>
+                    </div>
+               </div>
 
             </div>
             <div className="card-footer">

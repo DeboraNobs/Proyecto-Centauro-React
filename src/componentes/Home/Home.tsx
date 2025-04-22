@@ -54,6 +54,7 @@ const Home = () => {
             } catch (error) {
                 console.error(error);
                 setErrorMessage('No se pudieron cargar las sucursales.');
+                setSucursales([]);
             }
         };
         fetchSucursales();

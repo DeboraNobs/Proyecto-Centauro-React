@@ -18,13 +18,14 @@ const Availability = () => {
 
   useEffect(() => {
     if (sucursalId) {
-      fetch(`http://localhost:5038/api/coche/con-filtrado?sucursalId=${sucursalId}`)
+      fetch(`http://localhost:5038/api/coche/con-filtrado?sucursalId=${sucursalId}`) // &fechainicio=${fechaInicio.toISOString()}&fechaFin=${fechaFin.toISOString()}&horarioRecogida=${horarioRecogida}&horarioDevolucion=${horarioDevolucion}
         .then((res) => res.json())
         .then((data) => {
           setCoches(data.$values || []);
+          console.log(data.$values);
         });
     }
-  }, [sucursalId]);
+  }, [sucursalId]); // , fechaInicio, fechaFin, horarioDevolucion, horarioRecogida
 
   const navegarListado = () => {
     navigate('/');
