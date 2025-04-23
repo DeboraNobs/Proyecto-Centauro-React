@@ -17,15 +17,15 @@ const Availability = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (sucursalId) {
-      fetch(`http://localhost:5038/api/coche/con-filtrado?sucursalId=${sucursalId}`) // &fechainicio=${fechaInicio.toISOString()}&fechaFin=${fechaFin.toISOString()}&horarioRecogida=${horarioRecogida}&horarioDevolucion=${horarioDevolucion}
+    if (sucursalId) { // solo para filtrar por sucursal => `http://localhost:5038/api/coche/con-filtrado-sucursal?sucursalId=${sucursalId}`
+      fetch(`http://localhost:5038/api/coche/con-filtrado?sucursalId=${sucursalId}&fechainicio=${fechaInicio.toISOString()}&fechaFin=${fechaFin.toISOString()}`) // &horarioRecogida=${horarioRecogida}&horarioDevolucion=${horarioDevolucion}
         .then((res) => res.json())
         .then((data) => {
-          setCoches(data.$values || []);
-          console.log(data.$values);
+            setCoches(data.$values || []);
+            console.log(data.$values);
         });
     }
-  }, [sucursalId]); // , fechaInicio, fechaFin, horarioDevolucion, horarioRecogida
+  }, [sucursalId, fechaInicio, fechaFin]); // , fechaInicio, fechaFin, horarioDevolucion, horarioRecogida
 
   const navegarListado = () => {
     navigate('/');

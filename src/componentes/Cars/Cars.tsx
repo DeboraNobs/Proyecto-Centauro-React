@@ -23,6 +23,7 @@ const Cars = () => {
         try {
             const cochesData = await CarsService.getCars();
             setCars(cochesData);
+            console.log(cochesData);
         } catch (error) {
             setMensajeError("No se ha podido obtener todos los coches");
             console.error(error);
@@ -103,6 +104,7 @@ const Cars = () => {
                         <th>Marca</th>
                         <th>Modelo</th>
                         <th>Grupo Id - Nombre</th>
+                        <th>Sucursal Id - Nombre</th>
                         <th>Patente</th>
                         <th>Tipo</th>
                         <th>Plazas</th>
@@ -121,6 +123,7 @@ const Cars = () => {
                                 <td>{car.marca} </td>
                                 <td>{car.modelo}</td>
                                 <td>{car.grupo?.id} - {car.grupo?.nombre}</td>
+                                <td>{car.sucursal?.id} - {car.sucursal?.nombre} </td>
                                 <td>{car.patente}</td>
                                 <td>{car.tipo_coche}</td>
                                 <td>{car.num_plazas}</td>

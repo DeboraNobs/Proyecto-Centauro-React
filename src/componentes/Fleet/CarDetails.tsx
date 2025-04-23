@@ -52,7 +52,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                 Swal.fire("Reserva creada!", "Muchas gracias por elegirnos!", "success");
             } else if (response.status === 400) { // No hay coches disponibles para dicho grupo seleccionado
                 const data = await response.json();
-                Swal.fire("Error al crear la reserva", data.message || "No hay coches disponibles", "error");
+                Swal.fire("No hay coches disponibles", data.message || "Alquile un grupo diferente o inténtelo más tarde", "error");
                 navigate('/fleet');
             } else if (response.status === 401) { // Usuario no logueado
                 const data = await response.json();
