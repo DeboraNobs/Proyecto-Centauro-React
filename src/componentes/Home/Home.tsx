@@ -9,8 +9,8 @@ const Home = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [sucursales, setSucursales] = useState<{ id: string | number; nombre: string }[]>([]);
 
-    const [selectedSucursalId, setSucursalId] = useState<number>(0);
-    const [selectedSucursalDevolucionId, setSucursalDevolucionId] = useState<number>(0);
+    const [selectedSucursalId, setSucursalId] = useState<number>();
+    const [selectedSucursalDevolucionId, setSucursalDevolucionId] = useState<number>();
 
     const [selectedFechaInicio, setFechaInicio] = useState<Date>();
     const [selectedFechaFin, setFechaFin] = useState<Date>();
@@ -102,7 +102,9 @@ const Home = () => {
             }
         }
 
-        navigate(`/availability?sucursalId=${selectedSucursalId}&sucursalDevolucion=${selectedSucursalDevolucionId}&fechainicio=${fechaInicioFormateada}&fechaFin=${fechaFinFormateada}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`);
+        const sucursalDevolucion = selectedSucursalDevolucionId || selectedSucursalId; // si no selecciona una sucursal devolucion, se coloca que la devolucion será donde se recoge el coche
+
+        navigate(`/availability?sucursalId=${selectedSucursalId}&sucursalDevolucion=${sucursalDevolucion}&fechainicio=${fechaInicioFormateada}&fechaFin=${fechaFinFormateada}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`);
     }
 
     return (

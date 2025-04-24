@@ -17,11 +17,11 @@ const Fleet = () => {
       const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
       const horarioRecogida = searchParams.get('horarioRecogida') || '10:00';
       const horarioDevolucion = searchParams.get('horarioDevolucion') || '12:00';
-      const sucursalId = Number(searchParams.get('sucursalId') || '3');
-      const sucursalDevolucion = Number(searchParams.get('sucursalDevolucion') || '3');
-
+      const sucursalId = Number(searchParams.get('sucursalId'));
+      const sucursalDevolucion = Number(searchParams.get('sucursalDevolucion'));
+    
     useEffect(() => {
-        fetch('http://localhost:5038/api/coche/con-grupo') // si pruebo con el endpoint que trae grupos (/con-grupo) me muestra ls grupos pero los creados por form no
+        fetch('http://localhost:5038/api/coche/con-grupo') // si pruebo con el endpoint que trae grupos (/con-grupo) me muestra los grupos pero los creados por form no
             .then(res => res.json())
             .then(data => {
                 console.log(data);

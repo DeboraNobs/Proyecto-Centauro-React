@@ -20,7 +20,7 @@ const Rentals = () => {
     setIsLoading(true);
     try {
       const response = await RentalService.getRentals();
-      console.log(response); 
+      console.log(response);
       setRentals(response);
     } catch (error) {
       setMensajeError("Error al obtener todos los alquileres.");
@@ -48,18 +48,18 @@ const Rentals = () => {
   };
 
 
-  const searcher = (e : React.ChangeEvent<HTMLInputElement>) => {
+  const searcher = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     setSearch(target.value);
   }
 
   let computadaRentals: Rental[] = [];
   if (!search) {
-      computadaRentals = Array.isArray(rentals) ? rentals : [];  
+    computadaRentals = Array.isArray(rentals) ? rentals : [];
   } else {
     computadaRentals = rentals.filter((dato) =>
-        dato.lugarRecogida.toLowerCase().includes(search.toLowerCase()) ||
-        dato.lugarDevolucion.toLowerCase().includes(search.toLowerCase())
+      dato.lugarRecogida.toLowerCase().includes(search.toLowerCase()) ||
+      dato.lugarDevolucion.toLowerCase().includes(search.toLowerCase())
     )
   }
 
@@ -85,9 +85,9 @@ const Rentals = () => {
           <tr>
             <th>Inicio - Fin</th>
             <th>Lugar recogida</th>
-            <th>Lugar devolucion</th>
-            <th>Horario recogida</th>
-            <th>Horario devolucion</th>
+            <th>Lugar devolucion </th>
+            <th>Hora recogida</th>
+            <th>Hora devolucion</th>
             <th>Grupo</th>
             <th>Usuario</th>
             <th>Acciones</th>
@@ -98,25 +98,26 @@ const Rentals = () => {
           {computadaRentals.length > 0 ? (
             computadaRentals.map((rental) => (
               <tr key={rental.id}>
-                <td>{String(rental.fechainicio).split('T00:00:00')} - {String(rental.fechaFin).split('T00:00:00')}</td>
+
+                <td> {new Date(rental.fechainicio).toLocaleDateString()} - {new Date(rental.fechaFin).toLocaleDateString()} </td>
                 <td>{rental.lugarRecogida}</td>
                 <td>{rental.lugarDevolucion}</td>
-                <td>{String(rental.horarioRecogida)}</td>
-                <td>{String(rental.horarioDevolucion)}</td>
+                <td>{String(rental.horarioRecogida).slice(0, 5)}</td>
+                <td>{String(rental.horarioDevolucion).slice(0, 5)}</td>
                 <td>{rental.grupoId}</td>
                 <td>{rental.usersId}</td>
 
                 <td>
 
-                  { 
-                  /*
-                  <button
-                    type="button"
-                    className="btn btn-outline-warning btn-sm"
-                    onClick={() => editarRental((rental.id))}>
-                    <span className="bi bi-pencil-square"></span>&nbsp;Editar
-                  </button>
-                    */
+                  {
+                    /*
+                    <button
+                      type="button"
+                      className="btn btn-outline-warning btn-sm"
+                      onClick={() => editarRental((rental.id))}>
+                      <span className="bi bi-pencil-square"></span>&nbsp;Editar
+                    </button>
+                      */
                   }
                   <button
                     type="button"

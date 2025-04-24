@@ -10,8 +10,8 @@ const RentalDetails = () => {
   const searchParams= new URLSearchParams(location.search);
 
   const id = Number(searchParams.get('id'));
-  const sucursalId = Number(searchParams.get('sucursalId') || '3');
-  const sucursalDevolucion = Number(searchParams.get('sucursalDevolucion') || '3');
+  const sucursalId = Number(searchParams.get('sucursalId'));
+  const sucursalDevolucion = Number(searchParams.get('sucursalDevolucion'));
 
   const fechaInicio = searchParams.get('fechainicio') ? new Date(searchParams.get('fechainicio')!) : new Date();
   const fechaFin = searchParams.get('fechaFin') ? new Date(searchParams.get('fechaFin')!) : new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
@@ -51,22 +51,24 @@ const RentalDetails = () => {
             <div className='card h-100'> 
               <div className='card-body'>
                 <h5>Sucursal recogida:</h5>
-                <p> Nº {sucursalId}</p>
+                <p> Nº {sucursalId ?? auto.SucursalId}</p>
                 
                 <h5>Sucursal devolución:</h5>
-                <p> Nº {sucursalDevolucion}</p>
+                <p> Nº {sucursalDevolucion ?? auto.SucursalId}</p>
                 
                 <h5>Fecha inicio:</h5>
                 <p>{fechaInicio.toLocaleDateString()}. </p>
                 
                 <h5>Fecha fin:</h5>
-                <p>{fechaFin.toLocaleDateString() }. </p>
+                <p>{fechaFin.toLocaleDateString()}. </p>
   
                 <h5>Horario recogida:</h5>
                 <p>{horarioRecogida} horas.</p>
   
                 <h5>Horario devolución:</h5>
                 <p>{horarioDevolucion} horas.</p>
+
+                
               </div>
             </div>
           </div>
@@ -74,8 +76,8 @@ const RentalDetails = () => {
           <div className='col-md-5 col-lg-4'>
               <CarDetails
                 coche={auto}
-                selectedSucursalId={sucursalId}
-                sucursalDevolucion={sucursalDevolucion} 
+                selectedSucursalId={sucursalId ?? auto.SucursalId}
+                sucursalDevolucion={sucursalDevolucion ?? auto.SucursalId} 
                 fechainicio={fechaInicio}
                 fechaFin={fechaFin}
                 selectedHorarioRecogida={horarioRecogida}
