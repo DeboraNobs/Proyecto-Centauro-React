@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import CarDetails from '../Fleet/CarDetails';
 
 const RentalDetails = () => {
-
+  
   const [auto, setAuto] = useState<Car | null>(null);
   const location = useLocation();
   const searchParams= new URLSearchParams(location.search);
@@ -18,6 +18,14 @@ const RentalDetails = () => {
 
   const horarioRecogida = searchParams.get('horarioRecogida') || '10:00';
   const horarioDevolucion = searchParams.get('horarioDevolucion') || '12:00';
+
+  const msPorDia = 1000 * 60 * 60 * 24;
+  const diferenciaEnMs = fechaFin.getTime() - fechaInicio.getTime();
+  const cantidadDias = Math.ceil(diferenciaEnMs / msPorDia);
+  
+  // calculo precio total segun precio por día
+  const precioPorDia = auto?.grupo?.precio;
+  const total = cantidadDias * precioPorDia!;
 
   useEffect(() => {
     if (id) {
@@ -67,6 +75,37 @@ const RentalDetails = () => {
   
                 <h5>Horario devolución:</h5>
                 <p>{horarioDevolucion} horas.</p>
+
+                <hr />
+
+                <h4>¿Desea contratar servicios extras?</h4>
+                { /* <input type="radio" name="si" id="si" />Sí
+                <input type="radio" name="no" id="no" />No
+                */ }
+
+                <div className="form-check">
+                  <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                  <label className="form-check-label" htmlFor="flexRadioDefault1">
+                    Sí
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                  <label className="form-check-label" htmlFor="flexRadioDefault2">
+                    No
+                  </label>
+                </div>
+
+                <h5>Precio total con servicios extras:</h5>
+                <p> Alquiler: {total} €</p>
+                <p> Extras: (+ extras) € </p>
+                <p>Total: {total} + EXTRAS €</p>
+
+
+<hr />
+
+                <h5>Precio total sin servicios extras:</h5>
+                <p> {total} €</p>
 
                 
               </div>
