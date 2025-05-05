@@ -85,23 +85,14 @@ const RentalDetails = () => {
           <div className='col-md-6 col-lg-7 mb-3'>
             <div className='card h-100'>
               <div className='card-body'>
-                <h5>Sucursal recogida:</h5>
-                <p> Nº {sucursalId ?? auto.SucursalId}</p>
+                <h5 className='ms-4'><i className="bi bi-building"></i> recogida <i className="bi bi-building ms-3"></i> devolución </h5>
+                <p> Sucursal Nº {sucursalId ?? auto.SucursalId} - Sucursal Nº {sucursalDevolucion ?? auto.SucursalId}.</p>
 
-                <h5>Sucursal devolución:</h5>
-                <p> Nº {sucursalDevolucion ?? auto.SucursalId}</p>
+                <h5><i className="bi bi-calendar4-range"></i> inicio     <i className="bi bi-calendar4-range ms-4"></i> fin</h5>
+                <p>{fechaInicio.toLocaleDateString()} - {fechaFin.toLocaleDateString()}. </p>
 
-                <h5>Fecha inicio:</h5>
-                <p>{fechaInicio.toLocaleDateString()}. </p>
-
-                <h5>Fecha fin:</h5>
-                <p>{fechaFin.toLocaleDateString()}. </p>
-
-                <h5>Horario recogida:</h5>
-                <p>{horarioRecogida} horas.</p>
-
-                <h5>Horario devolución:</h5>
-                <p>{horarioDevolucion} horas.</p>
+                <h5> <i className="bi bi-clock"></i> inicio   <i className="bi bi-clock ms-4"></i> fin  </h5>
+                <p>{horarioRecogida}  horas  - {horarioDevolucion} horas.</p>
 
                 <hr />
 
