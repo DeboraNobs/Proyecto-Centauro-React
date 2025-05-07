@@ -1,11 +1,14 @@
+
 import React, { useEffect, useState } from 'react';
-import { Car } from '../../types/types';
+import { Car, Servicio } from '../../types/types';
 import { useLocation } from "react-router-dom";
 import CarDetails from '../Fleet/CarDetails';
+import { ServicesService } from '../../servicios/ServicesService';
 
 const RentalDetails = () => {
 
   const [auto, setAuto] = useState<Car | null>(null);
+  const [servicios, setServicios] = useState<Servicio[]>([]);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
 
@@ -31,14 +34,21 @@ const RentalDetails = () => {
   const [quiereExtras, setQuiereExtras] = useState<null | boolean>(null);
   const [extrasSeleccionados, setExtrasSeleccionados] = useState<string[]>([]);
 
-  const serviciosExtras = [
-    { nombre: 'Coche de bebé', precio: 10 },
-    { nombre: 'Segundo conductor', precio: 15 },
-    { nombre: 'GPS', precio: 15 },
-    { nombre: 'Depósito lleno', precio: 200 },
-    { nombre: 'Cobertura completa', precio: 100 },
-    { nombre: 'Cadenas para la nieve', precio: 50 },
-  ];
+  const cargarServicios = async () => {
+    try {
+      const response = await ServicesService.getServicios();
+      setServicios(response);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    cargarServicios();
+  }, []);
+
+  const serviciosExtras = servicios;
 
   const toggleExtra = (nombre: string) => {
     setExtrasSeleccionados(prev =>

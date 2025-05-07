@@ -41,6 +41,13 @@ export type Sucursal = {
     nombre: string;
 }
 
+export type Servicio = {
+    id: number;
+    nombre: string;
+    precio: number;
+    porcentajeDescuento: number | null;
+}
+
 export type Rental = {
     id: number;
     fechainicio: Date; // fechainicio esta en minuscula la i de inicio porque sino debo hacer una migracion en backend

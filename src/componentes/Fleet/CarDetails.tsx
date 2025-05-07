@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { CarDetailsProps } from "../../types/types";
+ import React, { useState } from "react";import { CarDetailsProps } from "../../types/types";
 import Button from "../Elements/Button";
 import { FaCar, FaExchangeAlt, FaIdCard, FaMoneyBill, FaRegBuilding, FaRegObjectGroup, FaSnowflake, FaUserFriends } from "react-icons/fa";
 import { GiCarDoor } from "react-icons/gi";
@@ -19,7 +18,6 @@ const CarDetails: React.FC<CarDetailsProps> = ({
 }) => {
 
     const sucursalIdValue = selectedSucursalId ?? coche.sucursal?.id;
-    //const sucursalDevolucionValue = sucursalDevolucion ?? coche.sucursal?.id; 
     const sucursalDevolucionValue = sucursalDevolucion ?? sucursalIdValue;
     const fechainicioValue = fechainicio ?? new Date();
     const fechaFinValue = fechaFin ?? new Date(Date.now() + 2 * 24 * 60 * 60 * 1000); // dos días después
@@ -234,5 +232,3 @@ const CarDetails: React.FC<CarDetailsProps> = ({
 }
 
 export default CarDetails;
-
-
