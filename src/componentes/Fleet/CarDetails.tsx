@@ -53,8 +53,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({
             if (response.ok) {
                 const alquilerCreado = await response.json(); 
     
-                // Si hay extras seleccionados, hacer los POST para cada uno
-                if (extrasSeleccionados?.length && serviciosDisponibles) {
+                if (extrasSeleccionados?.length && serviciosDisponibles) { // si hay extras seleccionados, hacer los POST para cada uno
                     for (const nombreExtra of extrasSeleccionados) {
                         const servicio = serviciosDisponibles.find(s => s.nombre === nombreExtra);
                         if (servicio) {

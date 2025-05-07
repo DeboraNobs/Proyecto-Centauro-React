@@ -83,7 +83,10 @@ const Home = () => {
     const redirigirAvailability = () => {
         const fechaInicioFormateada = selectedFechaInicio ? selectedFechaInicio.toISOString() : '';
         const fechaFinFormateada = selectedFechaFin ? selectedFechaFin.toISOString() : '';
-        
+
+        const horarioRecogidaFormateado = selectedHorarioRecogida ? selectedHorarioRecogida : '';
+        const horarioDevolucionFormateado = selectedHorarioDevolucion ? selectedHorarioDevolucion : '';
+
         if (!inputHorarioRecogida.validity.valid) {
             Swal.fire("La hora de recogida no es válida.", "Debe ser al menos con una hora de anticipación", "error");
             return;
@@ -92,7 +95,7 @@ const Home = () => {
         // si la fechainicio es la misma que la fechafin entonces se debe controlar que la horarecogida sea menor que la horadevolucion
 
         if (selectedFechaInicio && selectedFechaFin && selectedFechaInicio.toDateString() === selectedFechaFin.toDateString()) {
-            if (selectedHorarioRecogida >= selectedHorarioDevolucion) {
+            if (selectedHorarioRecogida! >= selectedHorarioDevolucion!) {
                 Swal.fire(
                     "Horario inválido",
                     "Si la fecha de inicio y fin son la misma, la hora de recogida debe ser menor que la de devolución.",
@@ -104,7 +107,7 @@ const Home = () => {
 
         const sucursalDevolucion = selectedSucursalDevolucionId || selectedSucursalId; // si no selecciona una sucursal devolucion, se coloca que la devolucion será donde se recoge el coche
 
-        navigate(`/availability?sucursalId=${selectedSucursalId}&sucursalDevolucion=${sucursalDevolucion}&fechainicio=${fechaInicioFormateada}&fechaFin=${fechaFinFormateada}&horarioRecogida=${selectedHorarioRecogida}&horarioDevolucion=${selectedHorarioDevolucion}`);
+        navigate(`/availability?sucursalId=${selectedSucursalId}&sucursalDevolucion=${sucursalDevolucion}&fechainicio=${fechaInicioFormateada}&fechaFin=${fechaFinFormateada}&horarioRecogida=${horarioRecogidaFormateado}&horarioDevolucion=${horarioDevolucionFormateado}`);
     }
 
     return (
@@ -227,6 +230,7 @@ const Home = () => {
                                 </span>
                                 <input type="time" id='horariodevolucion' name="horarioDevolucion" className="form-control"
                                     value={selectedHorarioDevolucion}
+                                    min={minHoraRecogida}
                                     onChange={
                                         (e) => guardarHorarioDevolucionSeleccionada(e.target.value)
                                     }
