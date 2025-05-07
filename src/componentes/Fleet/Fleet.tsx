@@ -11,6 +11,7 @@ const Fleet = () => {
     const [selectedPlazas, setSelectedPlazas] = useState<number>(0);
     const [selectedTipoCambio, setSelectedTipoCambio] = useState('');
     const [selectedTipoCoche, setSelectedTipoCoche] = useState('');
+    const [selectedSucursalId, setSelectedSucursalId] = useState<number>(0);
 
     const [searchParams] = useSearchParams();
       const fechaInicio = searchParams.get('fechainicio') ? new Date(searchParams.get('fechainicio')!) : new Date();
@@ -34,8 +35,9 @@ const Fleet = () => {
         const numPlazasCoincide = selectedPlazas ? coche.num_plazas === selectedPlazas : true; // si el valor de num_plazas seleccionado es = al num_plazas del coche.. true
         const tipoCambioCoincide = selectedTipoCambio ? coche.tipo_cambio === selectedTipoCambio : true;
         const tipoCocheCoincide = selectedTipoCoche ? coche.tipo_coche === selectedTipoCoche : true;
+        const sucursalIdCoincide = selectedSucursalId ? coche.sucursal?.id === selectedSucursalId : true;
 
-        return numPlazasCoincide && tipoCambioCoincide && tipoCocheCoincide;
+        return numPlazasCoincide && tipoCambioCoincide && tipoCocheCoincide && sucursalIdCoincide;
     })
 
     return (
@@ -46,6 +48,7 @@ const Fleet = () => {
                 setSelectedPlazas={setSelectedPlazas}
                 setSelectedTipoCambio={setSelectedTipoCambio}
                 setSelectedTipoCoche={setSelectedTipoCoche}
+                setSelectedSucursalId={setSelectedSucursalId}
              />
             
             <div className='row'>

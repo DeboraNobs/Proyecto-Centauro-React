@@ -81,6 +81,8 @@ export type CarDetailsProps = {
     fechaFin: Date;
     selectedHorarioRecogida: string;
     selectedHorarioDevolucion: string;
+    extrasSeleccionados?: string[];
+    serviciosDisponibles?: Servicio[];
 }
 
 export type ButtonProps = {
@@ -96,4 +98,5 @@ export type FleetFilterProps = {
     setSelectedPlazas: Dispatch<SetStateAction<number>>;
     setSelectedTipoCambio: Dispatch<SetStateAction<string>>;
     setSelectedTipoCoche: Dispatch<SetStateAction<string>>;
+    setSelectedSucursalId: Dispatch<SetStateAction<number>>;
 }

@@ -14,7 +14,9 @@ const CarDetails: React.FC<CarDetailsProps> = ({
     fechainicio,
     fechaFin,
     selectedHorarioRecogida,
-    selectedHorarioDevolucion
+    selectedHorarioDevolucion,
+    extrasSeleccionados,     
+    serviciosDisponibles
 }) => {
 
     const sucursalIdValue = selectedSucursalId ?? coche.sucursal?.id;
@@ -26,7 +28,72 @@ const CarDetails: React.FC<CarDetailsProps> = ({
 
     const location = useLocation(); // lo uso para saber en que componente me encuentro, usando la propiedad pathname que me devuelve el objeto location
 
+
     const hacerReserva = async () => {
+        const idUsuario = localStorage.getItem('id');
+    
+        const reserva = {
+            LugarRecogida: sucursalIdValue.toString(),
+            LugarDevolucion: sucursalDevolucionValue.toString(),
+            Fechainicio: fechainicioValue.toISOString().split('T')[0],
+            FechaFin: fechaFinValue.toISOString().split('T')[0],
+            HorarioRecogida: horarioRecogidaValue,
+            HorarioDevolucion: horarioDevolucionValue,
+            usersId: idUsuario,
+            grupoId: coche.grupoId,
+        };
+    
+        try {
+            const response = await fetch('http://localhost:5038/api/alquiler', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reserva),
+            });
+    
+            if (response.ok) {
+                const alquilerCreado = await response.json(); 
+    
+                // Si hay extras seleccionados, hacer los POST para cada uno
+                if (extrasSeleccionados?.length && serviciosDisponibles) {
+                    for (const nombreExtra of extrasSeleccionados) {
+                        const servicio = serviciosDisponibles.find(s => s.nombre === nombreExtra);
+                        if (servicio) {
+                            const servicioAlquiler = {
+                                AlquilerId: alquilerCreado.id, 
+                                ServicioId: servicio.id,
+                                Precio: servicio.precio
+                            };
+    
+                            await fetch('http://localhost:5038/api/servicio-alquiler', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(servicioAlquiler)
+                            });
+                        }
+                    }
+                }
+    
+                Swal.fire("Reserva creada!", "Muchas gracias por elegirnos!", "success");
+            } else {
+                const data = await response.json();
+                if (response.status === 400) {
+                    Swal.fire("No hay coches disponibles", data.message || "Alquile un grupo diferente o inténtelo más tarde", "error");
+                    navigate('/fleet');
+                } else if (response.status === 401) {
+                    Swal.fire("Acceso no autorizado", data.message || "Debe iniciar sesión", "error");
+                    navigate('/login');
+                } else {
+                    Swal.fire("Error", data.message || "Ha ocurrido un error inesperado", "error");
+                }
+            }
+        } catch (error) {
+            console.error('Error al reservar:', error);
+            Swal.fire("Error de red", "No se pudo conectar al servidor", "error");
+        }
+    };
+    
+    
+    /* const hacerReserva = async () => {
         const idUsuario = localStorage.getItem('id');
 
         const reserva = {
@@ -70,7 +137,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({
         }
 
 
-    };
+    }; */
 
     const navigate = useNavigate();
     const [, setId] = useState<number>(0);

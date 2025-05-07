@@ -190,6 +190,8 @@ const RentalDetails = () => {
               fechaFin={fechaFin}
               selectedHorarioRecogida={horarioRecogida}
               selectedHorarioDevolucion={horarioDevolucion}
+              extrasSeleccionados={extrasSeleccionados}
+              serviciosDisponibles={servicios}
             />
           </div>
 
