@@ -22,7 +22,7 @@ const Navbar = () => {
     const username = localStorage.getItem('username');
     
     return (
-        <nav className="navbar-container d-flex align-items-center justify-content-between p-3 mb-3">
+        <nav className="navbar-container d-flex align-items-center justify-content-between p-3 mb-3 shadow">
       
             <div className="d-flex flex-column" onClick={irInicio} style={{cursor: 'pointer'}}>
                 <h2 className="mb-0 brand-title">Centauro</h2>

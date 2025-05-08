@@ -34,7 +34,7 @@ body {
 }
 
 .navbar-container {
-  border-bottom: 3px solid BurlyWood;
+  /* border-bottom: 3px solid BurlyWood; */
   padding: 12px 20px;
 }
 
@@ -345,3 +345,25 @@ img {
     text-align: center;
   }
 }
+
+/* FOOTER */
+/*
+.subrayado-blanco {
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: white;
+  text-underline-offset: 9px;
+}
+
+.letras {
+  margin-top: 1.5rem;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  font-size: 0.8rem;
+}
+
+.menor-espaciado {
+  line-height: 2%;
+}
+*/

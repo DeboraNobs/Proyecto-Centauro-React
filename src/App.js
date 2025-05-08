@@ -16,6 +16,7 @@ import NotFound from './componentes/NotFound/NotFound';
 import Rentals from './componentes/Rentals/Rentals';
 import RentalDetails from './componentes/Rentals/RentalDetails';
 import ErrorBoundary from './componentes/ErrorBoundary/ErrorBoundary';
+import Footer from './componentes/Elements/Footer';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
 
+          <Footer />
       </ErrorBoundary>
     </div>
   );
