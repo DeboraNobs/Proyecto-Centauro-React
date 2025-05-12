@@ -6,11 +6,16 @@ const FavList = () => {
   const [favoritos, setFavoritos] = useState<Favorito[]>([]);
 
   useEffect(() => {
+    const usuarioIdRaw = localStorage.getItem('id');    
     const favoritosRaw = sessionStorage.getItem('favoritos');
-    if (favoritosRaw) {
+      if (favoritosRaw && usuarioIdRaw) {
       try {
+        const usuarioId = parseInt(usuarioIdRaw);
         const favoritosObjeto: Favorito[] = JSON.parse(favoritosRaw); // convierto en objeto un json
-        setFavoritos(favoritosObjeto);
+
+        const favoritosUsuario = favoritosObjeto.filter((fav) => fav.usuarioId == usuarioId);
+
+        setFavoritos(favoritosUsuario);
       } catch (error) {
         console.error('Error al parsear favoritos', error);
       }
@@ -25,7 +30,7 @@ const FavList = () => {
         <p>No hay coches favoritos.</p>
       ) : (
         <ul>
-          {favoritos.map((fav, index) => (
+          {favoritos.map((fav, index) => ( // map(valor/ indice)
             <li key={index}>
               Usuario ID: {fav.usuarioId}, Coche ID: {fav.cocheId}
             </li>
