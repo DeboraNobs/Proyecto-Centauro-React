@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 import React, { Dispatch, SetStateAction } from "react";
 
 export type Car = {

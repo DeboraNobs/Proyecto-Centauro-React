@@ -23,7 +23,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({
     const sucursalIdValue = selectedSucursalId ?? coche.sucursal?.id;
     const sucursalDevolucionValue = sucursalDevolucion ?? sucursalIdValue;
     const fechainicioValue = fechainicio ?? new Date();
-    const fechaFinValue = fechaFin ?? new Date(Date.now() + 2 * 24 * 60 * 60 * 1000); // dos días después
+    const fechaFinValue = fechaFin ?? new Date(Date.now() + 2 * 24 * 60 * 60 * 1000); // dos días después de hoy
     const horarioRecogidaValue = selectedHorarioRecogida ?? '10:00';
     const horarioDevolucionValue = selectedHorarioDevolucion ?? '12:00';
 
@@ -210,8 +210,8 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                 className="card-footer"
                 style={{
                     display: "flex",
-                    alignItems: "center", 
-                    gap: "10px", 
+                    alignItems: "center",
+                    gap: "10px",
                     flexWrap: "wrap",
                 }}
             >
@@ -243,16 +243,19 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                     />
                 )}
 
-                <Button
-                    style={{
-                        color: "black",
-                        padding: "7px",
-                        backgroundColor: "beige",
-                        border: "solid BurlyWood 2px",
-                    }}
-                    onClick={navegarListado}
-                    texto="Inicio"
-                />
+                {!location.pathname.includes('/favorites') && (
+                    <Button
+                        style={{
+                            color: "black",
+                            padding: "7px",
+                            backgroundColor: "beige",
+                            border: "solid BurlyWood 2px",
+                        }}
+                        onClick={navegarListado}
+                        texto="Inicio"
+                    />
+                )}
+
             </div>
 
         </div>
