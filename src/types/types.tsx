@@ -72,6 +72,11 @@ export type Login = {
     Password: string;
 }
 
+export type Favorito = {
+  usuarioId: number;
+  cocheId: number;
+}
+
 /* PROPS */
 export type CarDetailsProps = {
     coche: Car;
@@ -99,4 +104,8 @@ export type FleetFilterProps = {
     setSelectedTipoCambio: Dispatch<SetStateAction<string>>;
     setSelectedTipoCoche: Dispatch<SetStateAction<string>>;
     setSelectedSucursalId: Dispatch<SetStateAction<number>>;
+}
+
+export type LikeProps = {
+  cocheId: number;
 }

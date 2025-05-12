@@ -38,6 +38,7 @@ const Navbar = () => {
                 <Link to="users" className="nav-item">Usuarios</Link>
                 <Link to="rentals" className='nav-item'>Rentals</Link>               
                 <Link to="login" className='nav-item'>Login</Link>
+                <Link to="favorites" className='nav-item'>Favorites</Link>   
 
                 {isLoggedIn &&
                     <Link to="login" className='nav-item' onClick={logout}>Logout</Link>

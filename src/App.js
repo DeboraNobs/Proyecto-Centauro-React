@@ -17,6 +17,7 @@ import Rentals from './componentes/Rentals/Rentals';
 import RentalDetails from './componentes/Rentals/RentalDetails';
 import ErrorBoundary from './componentes/ErrorBoundary/ErrorBoundary';
 import Footer from './componentes/Elements/Footer';
+import FavList from './componentes/Elements/FavList';
 
 function App() {
   return (
@@ -48,7 +49,7 @@ function App() {
 
           <Route path="/rentals" element={<Rentals />}></Route>
           <Route path="/rentalsDetails" element={<RentalDetails />}></Route>
-
+          <Route path="/favorites" element={<FavList />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
 

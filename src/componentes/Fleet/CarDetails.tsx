@@ -1,4 +1,4 @@
- import React, { useState } from "react";import { CarDetailsProps } from "../../types/types";
+import React, { useState } from "react"; import { CarDetailsProps } from "../../types/types";
 import Button from "../Elements/Button";
 import { FaCar, FaExchangeAlt, FaIdCard, FaMoneyBill, FaRegBuilding, FaRegObjectGroup, FaSnowflake, FaUserFriends } from "react-icons/fa";
 import { GiCarDoor } from "react-icons/gi";
@@ -6,6 +6,7 @@ import { MdOutlineLuggage } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useLocation } from 'react-router-dom';
+import Like from "../Elements/Like";
 
 const CarDetails: React.FC<CarDetailsProps> = ({
     coche,
@@ -15,7 +16,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({
     fechaFin,
     selectedHorarioRecogida,
     selectedHorarioDevolucion,
-    extrasSeleccionados,     
+    extrasSeleccionados,
     serviciosDisponibles
 }) => {
 
@@ -31,7 +32,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({
 
     const hacerReserva = async () => {
         const idUsuario = localStorage.getItem('id');
-    
+
         const reserva = {
             LugarRecogida: sucursalIdValue.toString(),
             LugarDevolucion: sucursalDevolucionValue.toString(),
@@ -42,27 +43,27 @@ const CarDetails: React.FC<CarDetailsProps> = ({
             usersId: idUsuario,
             grupoId: coche.grupoId,
         };
-    
+
         try {
             const response = await fetch('http://localhost:5038/api/alquiler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(reserva),
             });
-    
+
             if (response.ok) {
-                const alquilerCreado = await response.json(); 
-    
+                const alquilerCreado = await response.json();
+
                 if (extrasSeleccionados?.length && serviciosDisponibles) { // si hay extras seleccionados, hacer los POST para cada uno
                     for (const nombreExtra of extrasSeleccionados) {
                         const servicio = serviciosDisponibles.find(s => s.nombre === nombreExtra);
                         if (servicio) {
                             const servicioAlquiler = {
-                                AlquilerId: alquilerCreado.id, 
+                                AlquilerId: alquilerCreado.id,
                                 ServicioId: servicio.id,
                                 Precio: servicio.precio
                             };
-    
+
                             await fetch('http://localhost:5038/api/servicio-alquiler', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
@@ -71,7 +72,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                         }
                     }
                 }
-    
+
                 Swal.fire("Reserva creada!", "Muchas gracias por elegirnos!", "success");
             } else {
                 const data = await response.json();
@@ -90,53 +91,6 @@ const CarDetails: React.FC<CarDetailsProps> = ({
             Swal.fire("Error de red", "No se pudo conectar al servidor", "error");
         }
     };
-    
-    
-    /* const hacerReserva = async () => {
-        const idUsuario = localStorage.getItem('id');
-
-        const reserva = {
-            LugarRecogida: sucursalIdValue.toString(),
-            LugarDevolucion: sucursalDevolucionValue.toString(),
-            Fechainicio: fechainicioValue.toISOString().split('T')[0],
-            FechaFin: fechaFinValue.toISOString().split('T')[0],
-            HorarioRecogida: horarioRecogidaValue,
-            HorarioDevolucion: horarioDevolucionValue,
-
-            usersId: idUsuario,
-            grupoId: coche.grupoId,
-        };
-
-        try {
-            const response = await fetch('http://localhost:5038/api/alquiler', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(reserva),
-            });
-
-            if (response.ok) {
-                Swal.fire("Reserva creada!", "Muchas gracias por elegirnos!", "success");
-            } else if (response.status === 400) { // No hay coches disponibles para dicho grupo seleccionado
-                const data = await response.json();
-                Swal.fire("No hay coches disponibles", data.message || "Alquile un grupo diferente o inténtelo más tarde", "error");
-                navigate('/fleet');
-            } else if (response.status === 401) { // Usuario no logueado
-                const data = await response.json();
-                Swal.fire("Acceso no autorizado", data.message || "Debe iniciar sesión", "error");
-                navigate('/login');
-            } else {
-                const data = await response.json();
-                Swal.fire("Error desconocido", data.message || "Ha ocurrido un error inesperado", "error");
-            }
-        } catch (error) {
-            console.error('Error al reservar:', error);
-            Swal.fire("Error de red", "No se pudo conectar al servidor", "error");
-        }
-
-
-    }; */
 
     const navigate = useNavigate();
     const [, setId] = useState<number>(0);
@@ -145,7 +99,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({
         setId(coche.id);
         navigate(`/rentalsDetails?id=${coche.id}&grupoId=${coche.grupo?.id}&sucursalId=${coche.sucursal?.id}&sucursalDevolucion=${sucursalDevolucionValue}&fechainicio=${fechainicioValue.toISOString()}&fechaFin=${fechaFinValue.toISOString()}&horarioRecogida=${horarioRecogidaValue}&horarioDevolucion=${horarioDevolucionValue}`
 
-      );
+        );
     }
 
     const navegarListado = () => {
@@ -251,7 +205,17 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                 </div>
 
             </div>
-            <div className="card-footer">
+
+            <div
+                className="card-footer"
+                style={{
+                    display: "flex",
+                    alignItems: "center", 
+                    gap: "10px", 
+                    flexWrap: "wrap",
+                }}
+            >
+                <Like cocheId={coche.id} />
 
                 {!location.pathname.includes('/rentalsDetails') && (
                     <Button
@@ -275,12 +239,10 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                             border: "solid BurlyWood 2px"
                         }}
                         texto="Reservar"
-                        onClick={
-                            () => hacerReserva()
-                        }
+                        onClick={() => hacerReserva()}
                     />
                 )}
-                
+
                 <Button
                     style={{
                         color: "black",
@@ -289,10 +251,10 @@ const CarDetails: React.FC<CarDetailsProps> = ({
                         border: "solid BurlyWood 2px",
                     }}
                     onClick={navegarListado}
-                    texto="Volver a Inicio" 
+                    texto="Inicio"
                 />
-
             </div>
+
         </div>
     );
 }
